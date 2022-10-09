@@ -166,7 +166,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
      */
     EasyWebSocketC.prototype.onOpen = function (listener) {
         // Connection opened
-        this.closeCallback.push(listener);
+        this.openCallback.push(listener);
         return this;
     };
     /**
@@ -174,7 +174,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
      * @descriptions Fired when data is received through a WebSocket. Also available via the onmessage property.
      */
     EasyWebSocketC.prototype.onMessage = function (listener) {
-        this.closeCallback.push(listener);
+        this.messageCallback.push(listener);
         return this;
     };
     /**
