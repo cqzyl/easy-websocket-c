@@ -126,7 +126,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     EasyWebSocketC.prototype.open = function (url, protocols, reOpen) {
         if (this.webSocket) {
             if (reOpen) {
-                this.close();
+                this.close(1000, 'easy-websocket-c 重新启动 websocket');
                 console.warn('连接已关闭');
             }
             else {

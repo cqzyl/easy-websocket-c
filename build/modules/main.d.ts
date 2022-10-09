@@ -17,7 +17,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     /** 初始化websocket连接 */
     protected initSocket(): void;
     /** 注册监听事件 */
-    startListenEvent(): void;
+    protected startListenEvent(): void;
     /** 停止监听事件 */
     stopListenEvent(): void;
     /** 等待中清除其他状态 */
