@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "es5",
+        "lib": ["ESNext", "DOM", "dom.iterable"],
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "isolatedModules": false,
+        "outDir": "./build/",
+        "allowJs": true,
+        "declaration": true,
+        "listEmittedFiles": true,
+        "sourceMap": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "test",
+        "**/*.spec.ts"
+    ]
+}
