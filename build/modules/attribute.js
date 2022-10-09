@@ -26,7 +26,7 @@ var EasyWebSocketCStatus;
  * @description: 属性声明
  */
 var EasyWebSocketCAttribute = /** @class */ (function () {
-    /* ****************** websocket 错误处理 ****** end ****************** */
+    /* ****************** websocket close 事件 ****** end   ****************** */
     function EasyWebSocketCAttribute(options) {
         /** socket api参数 */
         this.socketOptions = {
@@ -34,7 +34,16 @@ var EasyWebSocketCAttribute = /** @class */ (function () {
         };
         /** 运行状态值 */
         this.statusVal = EasyWebSocketCStatus.CLOSED;
+        /** 错误回调列表 */
         this.errorCallback = [];
+        /* ****************** websocket 错误处理 ****** end   ****************** */
+        /* ****************** websocket open 事件 ****** start ****************** */
+        /** open回调列表 */
+        this.openCallback = [];
+        /** message回调列表 */
+        this.messageCallback = [];
+        /** close回调列表 */
+        this.closeCallback = [];
         this.options = new options_1.EasyWebSocketCOptions(options);
     }
     Object.defineProperty(EasyWebSocketCAttribute.prototype, "socket", {
@@ -49,6 +58,14 @@ var EasyWebSocketCAttribute = /** @class */ (function () {
         /** 运行状态 */
         get: function () {
             return EasyWebSocketCStatus[this.statusVal];
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(EasyWebSocketCAttribute.prototype, "isRetryWhenOffline", {
+        /** 断网后尝试重新连接 */
+        get: function () {
+            return this.options.onlineContect || this.options.autoContect;
         },
         enumerable: false,
         configurable: true
