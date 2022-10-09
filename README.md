@@ -1,6 +1,6 @@
-# mapper-json-c
+# easy-websocket-c
 
-> 用于简化websocket操作 npm i mapper-json-c
+> 用于简化websocket操作 npm i easy-websocket-c
 
 使用示例
 ```
