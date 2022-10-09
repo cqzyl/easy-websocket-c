@@ -23,14 +23,18 @@
     "tsconfig-paths": "^4.1.0",
     "typescript": "^4.8.4"
   },
+  "dependencies": {
+    "mapper-json-c": "^1.1.1"
+  },
   "keywords": [
     "websocket",
     "typescript",
     "typescript-websocket",
     "api-websocket"
   ],
-  "dependencies": {
-    "mapper-json-c": "^1.1.1"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cqzyl/easy-websocket-c.git"
   },
   "files": [
     "build"
