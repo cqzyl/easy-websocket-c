@@ -39,6 +39,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     EasyWebSocketC.prototype.startOfflineWatch = function () {
         var _this = this;
         this.offlineAbort = (0, network_1.offline)(function (abort) {
+            _this.netWorkStatus = attribute_1.NetWorkStatusEnum.OFFLINE;
             _this.waittingClear();
         });
     };
@@ -53,6 +54,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     EasyWebSocketC.prototype.startOnlineWatch = function () {
         var _this = this;
         this.onlineAbort = (0, network_1.online)(function (abort) {
+            _this.netWorkStatus = attribute_1.NetWorkStatusEnum.ONLINE;
             if ((_this.isRetryWhenOffline)
                 && _this.statusVal === attribute_1.EasyWebSocketCStatus.WAITTING) {
                 // 如果重连启用且正在等待重新连接，则重新连接
@@ -72,6 +74,18 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         this.onlineAbort = null;
     };
     /* ****************** 网络 ****** end ****************** */
+    /* ****************** 心跳检测 ****** start ****************** */
+    /** 开始心跳检测 */
+    EasyWebSocketC.prototype.startTimeWatch = function () {
+        var _this = this;
+        clearTimeout(this.retryTimeCloseKey);
+        this.retryTimeCloseKey = setTimeout(function () {
+            // 心跳检测
+            console.warn("\u5FC3\u8DF3\u68C0\u6D4B\u8FDE\u63A5\u7B2C".concat(_this.timeContectNum++, "\u6B21"));
+            _this.reopen();
+        }, this.isTimeContect);
+    };
+    /* ****************** 心跳检测 ****** end ****************** */
     /** 初始化websocket连接 */
     EasyWebSocketC.prototype.initSocket = function () {
         /** 创建socket */
@@ -84,6 +98,9 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         var _this = this;
         // open
         this.webSocket.addEventListener('open', function (ev) {
+            // 初始化相关状态参数
+            _this.statusVal = attribute_1.EasyWebSocketCStatus.RUNNING;
+            _this.timeContectNum = 0;
             _this.openCallback.forEach(function (cb) { return cb.call(_this, ev); });
         }, false);
         // error
@@ -104,6 +121,16 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         this.closeController = new AbortController();
         this.webSocket.addEventListener('close', function (ev) {
             _this.closeCallback.forEach(function (cb) { return cb.call(_this, ev); });
+            if ( // 非主动关闭
+            _this.statusVal !== attribute_1.EasyWebSocketCStatus.CLOSED &&
+                // 当前非断网等待重连状态
+                !(_this.netWorkStatus === attribute_1.NetWorkStatusEnum.OFFLINE
+                    && _this.isRetryWhenOffline) &&
+                // 已开启心跳检测
+                _this.isTimeContect) {
+                // 开始进行心跳检测
+                _this.startTimeWatch();
+            }
         }, {
             signal: this.closeController.signal
         });
@@ -124,10 +151,14 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         this.stopListenEvent();
         this.webSocket = null;
     };
+    /** 重连websocket */
+    EasyWebSocketC.prototype.reopen = function () {
+        this.initSocket();
+    };
     /** 创建websocket连接 */
-    EasyWebSocketC.prototype.open = function (url, protocols, reOpen) {
+    EasyWebSocketC.prototype.open = function (url, protocols, forceOpen) {
         if (this.webSocket) {
-            if (reOpen) {
+            if (forceOpen) {
                 this.close(1000, 'easy-websocket-c 重新启动 websocket', false);
                 console.warn('连接已关闭');
             }
@@ -136,6 +167,8 @@ var EasyWebSocketC = /** @class */ (function (_super) {
                 return this;
             }
         }
+        // 修改运行状态
+        this.statusVal = attribute_1.EasyWebSocketCStatus.CONNECTING;
         // 存储参数，用于重连操作
         this.socketOptions = {
             url: url,
@@ -144,7 +177,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         this.initSocket();
         this.startOnlineWatch();
         this.startOfflineWatch();
-        // 初始化状态
+        // 修改运行状态
         this.statusVal = attribute_1.EasyWebSocketCStatus.RUNNING;
         console.warn('连接已创建');
         return this;
@@ -165,7 +198,6 @@ var EasyWebSocketC = /** @class */ (function (_super) {
             this.clearListenEvent();
         }
         this.webSocket = null;
-        this.statusVal = attribute_1.EasyWebSocketCStatus.CLOSED;
     };
     /**
      * Clear all fire metter who had bind except the network metter.

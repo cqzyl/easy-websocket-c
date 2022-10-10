@@ -7,18 +7,28 @@
  * @FilePath: \src\modules\params.ts
  */
 
-import { EasyWebSocketCOptions } from './options';
+import { AutoContect, EasyWebSocketCOptions } from './options';
+
+const baseAutoContect = new AutoContect()
 
 /**
  * @description: 运行状态枚举
  */
 export enum EasyWebSocketCStatus {
+  /** 正在连接 */
+  CONNECTING,
   /** 正在运行 */
   RUNNING,
   /** 正在等待重连 */
   WAITTING,
   /** 运行终止 */
   CLOSED,
+}
+
+/** 网络状态枚举 */
+export enum NetWorkStatusEnum {
+  OFFLINE,
+  ONLINE,
 }
 
 export type ICallBack<T> = (this: T, ev: Event) => any
@@ -36,8 +46,8 @@ export class EasyWebSocketCAttribute<T> {
   }
 
   /** 运行状态 */
-  get status() {
-    return EasyWebSocketCStatus[this.statusVal];
+  get status(): 'CONNECTING' | 'RUNNING' | 'WAITTING' | 'CLOSED' {
+    return EasyWebSocketCStatus[this.statusVal] as never;
   }
 
   /** socket api参数 */
@@ -50,8 +60,11 @@ export class EasyWebSocketCAttribute<T> {
 
   /** 断网后尝试重新连接 */
   protected get isRetryWhenOffline() {
-    return this.options.onlineContect || this.options.autoContect;
+    const { autoContect } = this.options;
+
+    return autoContect === true || (typeof autoContect === 'object' && autoContect.onlineContect)
   }
+
 
   /** 重连等待计时器 */
   protected retryTimeCloseKey: number;
@@ -62,11 +75,31 @@ export class EasyWebSocketCAttribute<T> {
   /** 运行状态值 */
   protected statusVal: EasyWebSocketCStatus = EasyWebSocketCStatus.CLOSED;
 
+  /* ****************** 网络 ****** start ****************** */
+
+  /** 网络状态值 */
+  protected netWorkStatus: NetWorkStatusEnum = NetWorkStatusEnum.ONLINE;
+
   /** （停止）联网监听（abort实例） */
   protected onlineAbort?: AbortController;
 
   /** （停止）断网监听（abort实例） */
   protected offlineAbort?: AbortController;
+
+  /* ****************** 网络 ****** start ****************** */
+
+  /* ****************** 心跳检测 ****** start ****************** */
+
+  /** 心跳检测次数判断 */
+  timeContectNum: number = 0;
+
+  /** 开启连接心跳检测 */
+  protected get isTimeContect() {
+    const { autoContect } = this.options;
+
+    return autoContect === true ? baseAutoContect.timeContect : (typeof autoContect === 'object' && autoContect.timeContect);
+  }
+  /* ****************** 心跳检测 ****** end ****************** */
 
   /* ****************** websocket 错误处理 ****** start ****************** */
   /** 错误监听（abort实例） */

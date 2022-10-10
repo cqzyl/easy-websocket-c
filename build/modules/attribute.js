@@ -8,20 +8,29 @@
  * @FilePath: \src\modules\params.ts
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EasyWebSocketCAttribute = exports.EasyWebSocketCStatus = void 0;
+exports.EasyWebSocketCAttribute = exports.NetWorkStatusEnum = exports.EasyWebSocketCStatus = void 0;
 var options_1 = require("./options");
+var baseAutoContect = new options_1.AutoContect();
 /**
  * @description: 运行状态枚举
  */
 var EasyWebSocketCStatus;
 (function (EasyWebSocketCStatus) {
+    /** 正在连接 */
+    EasyWebSocketCStatus[EasyWebSocketCStatus["CONNECTING"] = 0] = "CONNECTING";
     /** 正在运行 */
-    EasyWebSocketCStatus[EasyWebSocketCStatus["RUNNING"] = 0] = "RUNNING";
+    EasyWebSocketCStatus[EasyWebSocketCStatus["RUNNING"] = 1] = "RUNNING";
     /** 正在等待重连 */
-    EasyWebSocketCStatus[EasyWebSocketCStatus["WAITTING"] = 1] = "WAITTING";
+    EasyWebSocketCStatus[EasyWebSocketCStatus["WAITTING"] = 2] = "WAITTING";
     /** 运行终止 */
-    EasyWebSocketCStatus[EasyWebSocketCStatus["CLOSED"] = 2] = "CLOSED";
+    EasyWebSocketCStatus[EasyWebSocketCStatus["CLOSED"] = 3] = "CLOSED";
 })(EasyWebSocketCStatus = exports.EasyWebSocketCStatus || (exports.EasyWebSocketCStatus = {}));
+/** 网络状态枚举 */
+var NetWorkStatusEnum;
+(function (NetWorkStatusEnum) {
+    NetWorkStatusEnum[NetWorkStatusEnum["OFFLINE"] = 0] = "OFFLINE";
+    NetWorkStatusEnum[NetWorkStatusEnum["ONLINE"] = 1] = "ONLINE";
+})(NetWorkStatusEnum = exports.NetWorkStatusEnum || (exports.NetWorkStatusEnum = {}));
 /**
  * @description: 属性声明
  */
@@ -34,6 +43,13 @@ var EasyWebSocketCAttribute = /** @class */ (function () {
         };
         /** 运行状态值 */
         this.statusVal = EasyWebSocketCStatus.CLOSED;
+        /* ****************** 网络 ****** start ****************** */
+        /** 网络状态值 */
+        this.netWorkStatus = NetWorkStatusEnum.ONLINE;
+        /* ****************** 网络 ****** start ****************** */
+        /* ****************** 心跳检测 ****** start ****************** */
+        /** 心跳检测次数判断 */
+        this.timeContectNum = 0;
         /** 错误回调列表 */
         this.errorCallback = [];
         /* ****************** websocket 错误处理 ****** end   ****************** */
@@ -65,7 +81,17 @@ var EasyWebSocketCAttribute = /** @class */ (function () {
     Object.defineProperty(EasyWebSocketCAttribute.prototype, "isRetryWhenOffline", {
         /** 断网后尝试重新连接 */
         get: function () {
-            return this.options.onlineContect || this.options.autoContect;
+            var autoContect = this.options.autoContect;
+            return autoContect === true || (typeof autoContect === 'object' && autoContect.onlineContect);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(EasyWebSocketCAttribute.prototype, "isTimeContect", {
+        /** 开启连接心跳检测 */
+        get: function () {
+            var autoContect = this.options.autoContect;
+            return autoContect === true ? baseAutoContect.timeContect : (typeof autoContect === 'object' && autoContect.timeContect);
         },
         enumerable: false,
         configurable: true

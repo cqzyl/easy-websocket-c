@@ -7,7 +7,7 @@
  * @LastEditTime: 2022-09-30 09:18:52
  * @FilePath: \src\modules\main.ts
  */
-import { EasyWebSocketCAttribute, EasyWebSocketCStatus, ICallBack } from './attribute';
+import { EasyWebSocketCAttribute, EasyWebSocketCStatus, ICallBack, NetWorkStatusEnum } from './attribute';
 import { offline, online } from './network';
 import { EasyWebSocketCOptions } from './options';
 
@@ -31,6 +31,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
    */
   protected startOfflineWatch() {
     this.offlineAbort = offline((abort) => {
+      this.netWorkStatus = NetWorkStatusEnum.OFFLINE;
+
       this.waittingClear();
     });
   }
@@ -45,6 +47,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   /** 启动联网检测 */
   protected startOnlineWatch() {
     this.onlineAbort = online((abort) => {
+      this.netWorkStatus = NetWorkStatusEnum.ONLINE;
+
       if (
         (this.isRetryWhenOffline)
         && this.statusVal === EasyWebSocketCStatus.WAITTING
@@ -69,6 +73,19 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
   /* ****************** 网络 ****** end ****************** */
 
+  /* ****************** 心跳检测 ****** start ****************** */
+  /** 开始心跳检测 */
+  startTimeWatch() {
+    clearTimeout(this.retryTimeCloseKey);
+
+    this.retryTimeCloseKey = setTimeout(() => {
+      // 心跳检测
+      console.warn(`心跳检测连接第${this.timeContectNum ++}次`);
+      this.reopen();
+    }, this.isTimeContect);
+  }
+  /* ****************** 心跳检测 ****** end ****************** */
+
   /** 初始化websocket连接 */
   protected initSocket() {
     /** 创建socket */
@@ -83,6 +100,10 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   protected startListenEvent() {
     // open
     this.webSocket.addEventListener('open', (ev) => {
+      // 初始化相关状态参数
+      this.statusVal = EasyWebSocketCStatus.RUNNING;
+      this.timeContectNum = 0;
+
       this.openCallback.forEach(cb => cb.call(this, ev));
     }, false);
 
@@ -109,6 +130,20 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     
     this.webSocket.addEventListener('close', (ev) => {
       this.closeCallback.forEach(cb => cb.call(this, ev));
+
+      if (// 非主动关闭
+        this.statusVal !== EasyWebSocketCStatus.CLOSED &&
+        // 当前非断网等待重连状态
+        !(
+          this.netWorkStatus === NetWorkStatusEnum.OFFLINE
+          && this.isRetryWhenOffline
+        ) &&
+        // 已开启心跳检测
+        this.isTimeContect
+      ) {
+        // 开始进行心跳检测
+        this.startTimeWatch();
+      }
     }, {
       signal: this.closeController.signal
     });
@@ -135,10 +170,15 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     this.webSocket = null;
   }
 
+  /** 重连websocket */
+  reopen() {
+    this.initSocket();
+  }
+
   /** 创建websocket连接 */
-  open(url: string | URL, protocols: string | string[] | undefined, reOpen?: true) {
+  open(url: string | URL, protocols: string | string[] | undefined, forceOpen?: true) {
     if (this.webSocket) {
-      if (reOpen) {
+      if (forceOpen) {
         this.close(1000, 'easy-websocket-c 重新启动 websocket', false);
         console.warn('连接已关闭');
       } else {
@@ -146,6 +186,10 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
         return this;
       }
     }
+
+    // 修改运行状态
+    this.statusVal = EasyWebSocketCStatus.CONNECTING;
+
     // 存储参数，用于重连操作
     this.socketOptions = {
       url,
@@ -157,7 +201,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     this.startOnlineWatch();
     this.startOfflineWatch();
     
-    // 初始化状态
+    // 修改运行状态
     this.statusVal = EasyWebSocketCStatus.RUNNING;
 
     console.warn('连接已创建');
@@ -186,7 +230,6 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     }
 
     this.webSocket = null;
-    this.statusVal = EasyWebSocketCStatus.CLOSED;
   }
 
   /**

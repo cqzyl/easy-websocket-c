@@ -3,12 +3,19 @@ import { EasyWebSocketCOptions } from './options';
  * @description: 运行状态枚举
  */
 export declare enum EasyWebSocketCStatus {
+    /** 正在连接 */
+    CONNECTING = 0,
     /** 正在运行 */
-    RUNNING = 0,
+    RUNNING = 1,
     /** 正在等待重连 */
-    WAITTING = 1,
+    WAITTING = 2,
     /** 运行终止 */
-    CLOSED = 2
+    CLOSED = 3
+}
+/** 网络状态枚举 */
+export declare enum NetWorkStatusEnum {
+    OFFLINE = 0,
+    ONLINE = 1
 }
 export declare type ICallBack<T> = (this: T, ev: Event) => any;
 /**
@@ -20,7 +27,7 @@ export declare class EasyWebSocketCAttribute<T> {
     /** socket 实例 */
     get socket(): WebSocket;
     /** 运行状态 */
-    get status(): string;
+    get status(): 'CONNECTING' | 'RUNNING' | 'WAITTING' | 'CLOSED';
     /** socket api参数 */
     protected socketOptions: {
         url: string | URL;
@@ -34,10 +41,16 @@ export declare class EasyWebSocketCAttribute<T> {
     protected webSocket: WebSocket;
     /** 运行状态值 */
     protected statusVal: EasyWebSocketCStatus;
+    /** 网络状态值 */
+    protected netWorkStatus: NetWorkStatusEnum;
     /** （停止）联网监听（abort实例） */
     protected onlineAbort?: AbortController;
     /** （停止）断网监听（abort实例） */
     protected offlineAbort?: AbortController;
+    /** 心跳检测次数判断 */
+    timeContectNum: number;
+    /** 开启连接心跳检测 */
+    protected get isTimeContect(): number;
     /** 错误监听（abort实例） */
     protected errorController?: AbortController;
     /** 错误回调列表 */
