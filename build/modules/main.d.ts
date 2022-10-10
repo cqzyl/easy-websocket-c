@@ -19,7 +19,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     /** 注册监听事件 */
     protected startListenEvent(): void;
     /** 停止监听事件 */
-    stopListenEvent(): void;
+    protected stopListenEvent(): void;
     /** 等待中清除其他状态 */
     protected waittingClear(): void;
     /** 创建websocket连接 */
@@ -27,7 +27,11 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     /** Transmits data using the WebSocket connection. data can be a string, a Blob, an ArrayBuffer, or an ArrayBufferView. */
     send(data: string | ArrayBufferLike | Blob | ArrayBufferView): this;
     /** Closes the WebSocket connection, optionally using code as the the WebSocket connection close code and reason as the the WebSocket connection close reason. */
-    close(code?: number, reason?: string): void;
+    close(code?: number, reason?: string, notClearListenEvent?: boolean): void;
+    /**
+     * Clear all fire metter who had bind except the network metter.
+     */
+    clearListenEvent(): void;
     /**
      * Fired when a connection with a WebSocket is opened. Also available via the onopen property.
      */

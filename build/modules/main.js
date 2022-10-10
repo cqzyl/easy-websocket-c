@@ -44,8 +44,9 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     };
     /** 停止断网检测重连功能 */
     EasyWebSocketC.prototype.stopOfflineWatch = function () {
+        var _a;
         // 停止事件监听
-        this.offlineAbort.abort();
+        (_a = this.offlineAbort) === null || _a === void 0 ? void 0 : _a.abort();
         this.offlineAbort = null;
     };
     /** 启动联网检测 */
@@ -65,8 +66,9 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     };
     /** 停止联网检测 */
     EasyWebSocketC.prototype.stopOnlineWatch = function () {
+        var _a;
         // 停止事件监听
-        this.onlineAbort.abort();
+        (_a = this.onlineAbort) === null || _a === void 0 ? void 0 : _a.abort();
         this.onlineAbort = null;
     };
     /* ****************** 网络 ****** end ****************** */
@@ -126,7 +128,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     EasyWebSocketC.prototype.open = function (url, protocols, reOpen) {
         if (this.webSocket) {
             if (reOpen) {
-                this.close(1000, 'easy-websocket-c 重新启动 websocket');
+                this.close(1000, 'easy-websocket-c 重新启动 websocket', false);
                 console.warn('连接已关闭');
             }
             else {
@@ -153,13 +155,26 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         return this;
     };
     /** Closes the WebSocket connection, optionally using code as the the WebSocket connection close code and reason as the the WebSocket connection close reason. */
-    EasyWebSocketC.prototype.close = function (code, reason) {
-        this.webSocket.close(code, reason);
+    EasyWebSocketC.prototype.close = function (code, reason, notClearListenEvent) {
+        var _a;
+        (_a = this.webSocket) === null || _a === void 0 ? void 0 : _a.close(code, reason);
         this.stopOfflineWatch();
         this.stopOnlineWatch();
         this.stopListenEvent();
+        if (!notClearListenEvent) {
+            this.clearListenEvent();
+        }
         this.webSocket = null;
         this.statusVal = attribute_1.EasyWebSocketCStatus.CLOSED;
+    };
+    /**
+     * Clear all fire metter who had bind except the network metter.
+     */
+    EasyWebSocketC.prototype.clearListenEvent = function () {
+        this.openCallback = [];
+        this.errorCallback = [];
+        this.messageCallback = [];
+        this.closeCallback = [];
     };
     /**
      * Fired when a connection with a WebSocket is opened. Also available via the onopen property.

@@ -139,7 +139,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   open(url: string | URL, protocols: string | string[] | undefined, reOpen?: true) {
     if (this.webSocket) {
       if (reOpen) {
-        this.close(1000, 'easy-websocket-c 重新启动 websocket');
+        this.close(1000, 'easy-websocket-c 重新启动 websocket', false);
         console.warn('连接已关闭');
       } else {
         console.warn('连接已存在，未重新建立新连接');
@@ -173,13 +173,17 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   }
 
   /** Closes the WebSocket connection, optionally using code as the the WebSocket connection close code and reason as the the WebSocket connection close reason. */
-  close(code?: number, reason?: string) {
+  close(code?: number, reason?: string, notClearListenEvent?: boolean) {
     this.webSocket?.close(code, reason);
     
     this.stopOfflineWatch();
 
     this.stopOnlineWatch();
     this.stopListenEvent();
+
+    if (!notClearListenEvent) {
+      this.clearListenEvent();
+    }
 
     this.webSocket = null;
     this.statusVal = EasyWebSocketCStatus.CLOSED;
