@@ -98,8 +98,11 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         var _this = this;
         // open
         this.webSocket.addEventListener('open', function (ev) {
+            console.warn('连接成功');
             // 初始化相关状态参数
+            // 修改socket状态
             _this.statusVal = attribute_1.EasyWebSocketCStatus.RUNNING;
+            // 初始化重连计时器
             _this.timeContectNum = 0;
             _this.openCallback.forEach(function (cb) { return cb.call(_this, ev); });
         }, false);
@@ -167,6 +170,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
                 return this;
             }
         }
+        console.warn('正在创建连接...');
         // 修改运行状态
         this.statusVal = attribute_1.EasyWebSocketCStatus.CONNECTING;
         // 存储参数，用于重连操作
@@ -177,9 +181,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         this.initSocket();
         this.startOnlineWatch();
         this.startOfflineWatch();
-        // 修改运行状态
-        this.statusVal = attribute_1.EasyWebSocketCStatus.RUNNING;
-        console.warn('连接已创建');
+        console.warn('正在连接...');
         return this;
     };
     /** Transmits data using the WebSocket connection. data can be a string, a Blob, an ArrayBuffer, or an ArrayBufferView. */

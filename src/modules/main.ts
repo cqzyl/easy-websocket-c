@@ -100,8 +100,11 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   protected startListenEvent() {
     // open
     this.webSocket.addEventListener('open', (ev) => {
+      console.warn('连接成功');
       // 初始化相关状态参数
+      // 修改socket状态
       this.statusVal = EasyWebSocketCStatus.RUNNING;
+      // 初始化重连计时器
       this.timeContectNum = 0;
 
       this.openCallback.forEach(cb => cb.call(this, ev));
@@ -186,6 +189,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
         return this;
       }
     }
+    console.warn('正在创建连接...');
 
     // 修改运行状态
     this.statusVal = EasyWebSocketCStatus.CONNECTING;
@@ -200,11 +204,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
     this.startOnlineWatch();
     this.startOfflineWatch();
-    
-    // 修改运行状态
-    this.statusVal = EasyWebSocketCStatus.RUNNING;
 
-    console.warn('连接已创建');
+    console.warn('正在连接...');
 
     return this;
   }
