@@ -229,6 +229,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     if (!notClearListenEvent) {
       this.clearListenEvent();
     }
+    // 更新状态为关闭（只有手动关闭时状态才为CLOSED）
+    this.statusVal = EasyWebSocketCStatus.CLOSED
 
     this.webSocket = null;
   }

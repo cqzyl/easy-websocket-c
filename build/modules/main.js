@@ -199,6 +199,8 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         if (!notClearListenEvent) {
             this.clearListenEvent();
         }
+        // 更新状态为关闭（只有手动关闭时状态才为CLOSED）
+        this.statusVal = attribute_1.EasyWebSocketCStatus.CLOSED;
         this.webSocket = null;
     };
     /**
