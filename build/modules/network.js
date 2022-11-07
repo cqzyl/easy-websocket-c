@@ -11,8 +11,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.offline = exports.online = void 0;
 function online(callback) {
     var onlineController = new AbortController();
-    window.addEventListener('online', function () {
-        callback(onlineController);
+    window.addEventListener('online', function (e) {
+        callback(e, onlineController);
     }, {
         signal: onlineController.signal
     });
@@ -21,8 +21,8 @@ function online(callback) {
 exports.online = online;
 function offline(callback) {
     var offlineController = new AbortController();
-    window.addEventListener('offline', function () {
-        callback(offlineController);
+    window.addEventListener('offline', function (e) {
+        callback(e, offlineController);
     }, {
         signal: offlineController.signal
     });

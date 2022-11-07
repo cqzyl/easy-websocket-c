@@ -86,6 +86,13 @@ export class EasyWebSocketCAttribute<T> {
   /** （停止）断网监听（abort实例） */
   protected offlineAbort?: AbortController;
 
+  /** 联网监听回调 */
+  protected onlineCallback: ICallBack<T>[] = []
+
+  /** 断网监听回调 */
+  protected offlineCallback: ICallBack<T>[] = []
+  
+
   /* ****************** 网络 ****** start ****************** */
 
   /* ****************** 心跳检测 ****** start ****************** */

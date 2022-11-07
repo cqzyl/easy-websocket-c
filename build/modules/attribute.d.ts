@@ -47,6 +47,10 @@ export declare class EasyWebSocketCAttribute<T> {
     protected onlineAbort?: AbortController;
     /** （停止）断网监听（abort实例） */
     protected offlineAbort?: AbortController;
+    /** 联网监听回调 */
+    protected onlineCallback: ICallBack<T>[];
+    /** 断网监听回调 */
+    protected offlineCallback: ICallBack<T>[];
     /** 心跳检测次数判断 */
     timeContectNum: number;
     /** 开启连接心跳检测 */

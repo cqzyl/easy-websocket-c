@@ -3,7 +3,7 @@ export declare class AutoContect {
     onlineContect?: boolean;
     /**
      * 心跳检测(时间ms) 0 为关闭心跳检测
-     * @description -- 注: 开启断网重连状态下, 断网后默认使用断网重连检测
+     * @description 开启断网重连状态下, 断网后默认使用断网重连检测
      **/
     timeContect?: number;
 }

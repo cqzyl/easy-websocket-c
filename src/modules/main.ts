@@ -30,10 +30,20 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
    * 断网后自动清除 socket 实例
    */
   protected startOfflineWatch() {
-    this.offlineAbort = offline((abort) => {
+    this.offlineAbort = offline((e, abort) => {
       this.netWorkStatus = NetWorkStatusEnum.OFFLINE;
 
       this.waittingClear();
+
+      if (this.isRetryWhenOffline) {
+        // 如果重连启用，则执行逻辑
+        console.warn('网络断开，正在等待重连');
+        try {
+          this.offlineCallback.forEach(v => v.call(this, e));
+        } catch (error) {
+          console.error(error);
+        }
+      }
     });
   }
 
@@ -46,7 +56,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
   /** 启动联网检测 */
   protected startOnlineWatch() {
-    this.onlineAbort = online((abort) => {
+    this.onlineAbort = online((e, abort) => {
       this.netWorkStatus = NetWorkStatusEnum.ONLINE;
 
       if (
@@ -55,9 +65,14 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
       ) {
         // 如果重连启用且正在等待重新连接，则重新连接
         clearTimeout(this.retryTimeCloseKey);
+        try {
+          this.onlineCallback.forEach(v => v.call(this, e));
+        } catch (error) {
+          console.error(error);
+        }
 
         this.retryTimeCloseKey = setTimeout(() => {
-          console.log('网络重新连接，正在尝试重连');
+          console.warn('网络重新连接，正在尝试重连');
           this.initSocket();
         }, 1000);
       }
@@ -75,12 +90,12 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
   /* ****************** 心跳检测 ****** start ****************** */
   /** 开始心跳检测 */
-  startTimeWatch() {
+  protected startTimeWatch() {
     clearTimeout(this.retryTimeCloseKey);
 
     this.retryTimeCloseKey = setTimeout(() => {
       // 心跳检测
-      console.warn(`心跳检测连接第${this.timeContectNum ++}次`);
+      console.warn(`心跳检测连接第${++this.timeContectNum}次`);
       this.reopen();
     }, this.isTimeContect);
   }
@@ -170,6 +185,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
     this.stopListenEvent();
     
+    this.webSocket.close(1000, '网络断开， easy-websocket-c 主动断开 websocket');
     this.webSocket = null;
   }
 
@@ -222,14 +238,14 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     this.webSocket?.close(code, reason);
     
     this.stopOfflineWatch();
-
     this.stopOnlineWatch();
+    
     this.stopListenEvent();
 
     if (!notClearListenEvent) {
       this.clearListenEvent();
     }
-    // 更新状态为关闭（只有手动关闭时状态才为CLOSED）
+    // 更新状态为关闭（只有主动关闭时状态才为CLOSED）
     this.statusVal = EasyWebSocketCStatus.CLOSED
 
     this.webSocket = null;
@@ -243,7 +259,29 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     this.errorCallback = [];
     this.messageCallback = [];
     this.closeCallback = [];
+
+    this.onlineCallback = [];
+    this.offlineCallback = [];
   }
+
+  /**
+   * Fired when the socket is connected and when the network is connected  
+   */
+  onOnline(listener: ICallBack<EasyWebSocketC>) {
+    this.onlineCallback.push(listener);
+
+    return this;
+  }
+
+  
+  /**
+   * Fired when the socket is connected and when the network is disconnected
+   */
+   onOffline(listener: ICallBack<EasyWebSocketC>) {
+    this.offlineCallback.push(listener);
+
+    return this;
+   }
 
   /**
    * Fired when a connection with a WebSocket is opened. Also available via the onopen property.

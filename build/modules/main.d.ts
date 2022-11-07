@@ -15,7 +15,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     /** 停止联网检测 */
     protected stopOnlineWatch(): void;
     /** 开始心跳检测 */
-    startTimeWatch(): void;
+    protected startTimeWatch(): void;
     /** 初始化websocket连接 */
     protected initSocket(): void;
     /** 注册监听事件 */
@@ -36,6 +36,14 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
      * Clear all fire metter who had bind except the network metter.
      */
     clearListenEvent(): void;
+    /**
+     * Fired when the socket is connected and when the network is connected
+     */
+    onOnline(listener: ICallBack<EasyWebSocketC>): this;
+    /**
+     * Fired when the socket is connected and when the network is disconnected
+     */
+    onOffline(listener: ICallBack<EasyWebSocketC>): this;
     /**
      * Fired when a connection with a WebSocket is opened. Also available via the onopen property.
      */

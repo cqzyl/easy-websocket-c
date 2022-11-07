@@ -1,6 +1,6 @@
 {
   "name": "easy-websocket-c",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "easy for use websocket",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -10,7 +10,8 @@
     "dev": "tsc --watch",
     "test": "cross-env TS_NODE_PROJECT='test/tsconfig.test.json' mocha test/**/**.test.ts",
     "build": "npm run clean && tsc",
-    "clean": "rimraf build"
+    "clean": "rimraf build",
+    "publish": "npm publish"
   },
   "devDependencies": {
     "@types/chai": "^4.3.3",

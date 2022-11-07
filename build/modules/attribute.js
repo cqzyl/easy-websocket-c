@@ -46,6 +46,10 @@ var EasyWebSocketCAttribute = /** @class */ (function () {
         /* ****************** 网络 ****** start ****************** */
         /** 网络状态值 */
         this.netWorkStatus = NetWorkStatusEnum.ONLINE;
+        /** 联网监听回调 */
+        this.onlineCallback = [];
+        /** 断网监听回调 */
+        this.offlineCallback = [];
         /* ****************** 网络 ****** start ****************** */
         /* ****************** 心跳检测 ****** start ****************** */
         /** 心跳检测次数判断 */

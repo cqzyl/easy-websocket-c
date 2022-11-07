@@ -38,9 +38,19 @@ var EasyWebSocketC = /** @class */ (function (_super) {
      */
     EasyWebSocketC.prototype.startOfflineWatch = function () {
         var _this = this;
-        this.offlineAbort = (0, network_1.offline)(function (abort) {
+        this.offlineAbort = (0, network_1.offline)(function (e, abort) {
             _this.netWorkStatus = attribute_1.NetWorkStatusEnum.OFFLINE;
             _this.waittingClear();
+            if (_this.isRetryWhenOffline) {
+                // 如果重连启用，则执行逻辑
+                console.warn('网络断开，正在等待重连');
+                try {
+                    _this.offlineCallback.forEach(function (v) { return v.call(_this, e); });
+                }
+                catch (error) {
+                    console.error(error);
+                }
+            }
         });
     };
     /** 停止断网检测重连功能 */
@@ -53,14 +63,20 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     /** 启动联网检测 */
     EasyWebSocketC.prototype.startOnlineWatch = function () {
         var _this = this;
-        this.onlineAbort = (0, network_1.online)(function (abort) {
+        this.onlineAbort = (0, network_1.online)(function (e, abort) {
             _this.netWorkStatus = attribute_1.NetWorkStatusEnum.ONLINE;
             if ((_this.isRetryWhenOffline)
                 && _this.statusVal === attribute_1.EasyWebSocketCStatus.WAITTING) {
                 // 如果重连启用且正在等待重新连接，则重新连接
                 clearTimeout(_this.retryTimeCloseKey);
+                try {
+                    _this.onlineCallback.forEach(function (v) { return v.call(_this, e); });
+                }
+                catch (error) {
+                    console.error(error);
+                }
                 _this.retryTimeCloseKey = setTimeout(function () {
-                    console.log('网络重新连接，正在尝试重连');
+                    console.warn('网络重新连接，正在尝试重连');
                     _this.initSocket();
                 }, 1000);
             }
@@ -81,7 +97,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         clearTimeout(this.retryTimeCloseKey);
         this.retryTimeCloseKey = setTimeout(function () {
             // 心跳检测
-            console.warn("\u5FC3\u8DF3\u68C0\u6D4B\u8FDE\u63A5\u7B2C".concat(_this.timeContectNum++, "\u6B21"));
+            console.warn("\u5FC3\u8DF3\u68C0\u6D4B\u8FDE\u63A5\u7B2C".concat(++_this.timeContectNum, "\u6B21"));
             _this.reopen();
         }, this.isTimeContect);
     };
@@ -152,6 +168,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
     EasyWebSocketC.prototype.waittingClear = function () {
         this.statusVal = attribute_1.EasyWebSocketCStatus.WAITTING;
         this.stopListenEvent();
+        this.webSocket.close(1000, '网络断开， easy-websocket-c 主动断开 websocket');
         this.webSocket = null;
     };
     /** 重连websocket */
@@ -199,7 +216,7 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         if (!notClearListenEvent) {
             this.clearListenEvent();
         }
-        // 更新状态为关闭（只有手动关闭时状态才为CLOSED）
+        // 更新状态为关闭（只有主动关闭时状态才为CLOSED）
         this.statusVal = attribute_1.EasyWebSocketCStatus.CLOSED;
         this.webSocket = null;
     };
@@ -211,6 +228,22 @@ var EasyWebSocketC = /** @class */ (function (_super) {
         this.errorCallback = [];
         this.messageCallback = [];
         this.closeCallback = [];
+        this.onlineCallback = [];
+        this.offlineCallback = [];
+    };
+    /**
+     * Fired when the socket is connected and when the network is connected
+     */
+    EasyWebSocketC.prototype.onOnline = function (listener) {
+        this.onlineCallback.push(listener);
+        return this;
+    };
+    /**
+     * Fired when the socket is connected and when the network is disconnected
+     */
+    EasyWebSocketC.prototype.onOffline = function (listener) {
+        this.offlineCallback.push(listener);
+        return this;
     };
     /**
      * Fired when a connection with a WebSocket is opened. Also available via the onopen property.
