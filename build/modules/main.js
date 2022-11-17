@@ -147,6 +147,8 @@ var EasyWebSocketC = /** @class */ (function (_super) {
                     && _this.isRetryWhenOffline) &&
                 // 已开启心跳检测
                 _this.isTimeContect) {
+                // 更新状态为等待中
+                _this.statusVal = attribute_1.EasyWebSocketCStatus.WAITTING;
                 // 开始进行心跳检测
                 _this.startTimeWatch();
             }

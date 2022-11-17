@@ -159,6 +159,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
         // 已开启心跳检测
         this.isTimeContect
       ) {
+        // 更新状态为等待中
+        this.statusVal = EasyWebSocketCStatus.WAITTING;
         // 开始进行心跳检测
         this.startTimeWatch();
       }
