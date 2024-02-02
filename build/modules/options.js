@@ -12,7 +12,7 @@ exports.EasyWebSocketCOptions = exports.AutoContect = void 0;
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:15:35
  * @LastEditors: ChenQiang
- * @LastEditTime: 2022-09-30 09:15:36
+ * @LastEditTime: 2024-02-02 16:51:29
  * @FilePath: \src\modules\options.ts
  */
 var mapper_json_c_1 = require("mapper-json-c");
@@ -41,7 +41,7 @@ var EasyWebSocketCOptions = /** @class */ (function () {
         /** 自动重连 */
         this.autoContect = true;
         if (options) {
-            (0, mapper_json_c_1.mapperJsonC)(options, EasyWebSocketCOptions);
+            Object.assign(this, (0, mapper_json_c_1.mapperJsonC)(options, EasyWebSocketCOptions));
         }
     }
     __decorate([

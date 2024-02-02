@@ -3,7 +3,7 @@
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:15:35
  * @LastEditors: ChenQiang
- * @LastEditTime: 2022-09-30 09:15:36
+ * @LastEditTime: 2024-02-02 16:51:29
  * @FilePath: \src\modules\options.ts
  */
 import { JsonProperty, mapperJsonC } from 'mapper-json-c';
@@ -29,7 +29,10 @@ export class EasyWebSocketCOptions {
 
   constructor(options?: Partial<EasyWebSocketCOptions>) {
     if (options) {
-      mapperJsonC(options, EasyWebSocketCOptions)
+      Object.assign(
+        this,
+        mapperJsonC(options, EasyWebSocketCOptions)
+      )
     }
   }
 }
