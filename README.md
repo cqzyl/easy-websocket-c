@@ -30,6 +30,13 @@ const options = {
     onlineContect: true,
 
     /**
+     * 联网重连最大尝试次数
+     * @default 0 永远尝试重新连接
+     */
+    @JsonProperty()
+    max?: number = 0;
+
+    /**
      * 心跳检测(时间ms) 0 为关闭心跳检测, 默认 3 * 1000 ms
      * 即因为意外情况断开时，间隔timeContect时间进行重新连接
      */

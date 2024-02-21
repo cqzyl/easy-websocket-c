@@ -3,8 +3,8 @@
  * @Author: ChenQiang
  * @Date: 2022-10-08 17:16:04
  * @LastEditors: ChenQiang
- * @LastEditTime: 2022-10-08 17:16:04
- * @FilePath: \src\modules\params.ts
+ * @LastEditTime: 2024-02-21 16:15:22
+ * @FilePath: \src\modules\attribute.ts
  */
 
 import { AutoContect, EasyWebSocketCOptions } from './options';
@@ -99,6 +99,20 @@ export class EasyWebSocketCAttribute<T> {
 
   /** 心跳检测次数判断 */
   timeContectNum: number = 0;
+
+  /** 心跳检测最大次数 */
+  protected get timeContectMaxNum() {
+    const { autoContect } = this.options;
+    if (!autoContect) {
+      return -1;
+    }
+
+    if (autoContect === true) {
+      return baseAutoContect.max;
+    }
+
+    return autoContect.max;
+  }
 
   /** 开启连接心跳检测 */
   protected get isTimeContect() {

@@ -4,7 +4,7 @@
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:18:52
  * @LastEditors: ChenQiang
- * @LastEditTime: 2022-09-30 09:18:52
+ * @LastEditTime: 2024-02-21 16:23:01
  * @FilePath: \src\modules\main.ts
  */
 import { EasyWebSocketCAttribute, EasyWebSocketCStatus, ICallBack, NetWorkStatusEnum } from './attribute';
@@ -94,9 +94,22 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     clearTimeout(this.retryTimeCloseKey);
 
     this.retryTimeCloseKey = setTimeout(() => {
-      // 心跳检测
-      console.warn(`心跳检测连接第${++this.timeContectNum}次`);
-      this.reopen();
+      if (this.timeContectMaxNum === 0 || this.timeContectMaxNum < this.timeContectNum) {
+        // 心跳检测不设置上限
+        this.timeContectNum += 1;
+
+        // 心跳检测
+        console.warn(`心跳检测连接第${this.timeContectNum}次`);
+
+        this.reopen();
+      } else {
+        // 关闭心跳检测
+        console.warn('心跳检测结束');
+        return false;
+      }
+
+      
+
     }, this.isTimeContect);
   }
   /* ****************** 心跳检测 ****** end ****************** */
