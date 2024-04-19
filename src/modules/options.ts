@@ -3,7 +3,7 @@
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:15:35
  * @LastEditors: ChenQiang
- * @LastEditTime: 2024-02-21 16:11:10
+ * @LastEditTime: 2024-04-19 09:07:22
  * @FilePath: \src\modules\options.ts
  */
 import { JsonProperty, mapperJsonC } from 'mapper-json-c';
@@ -14,7 +14,7 @@ export class AutoContect {
   onlineContect?: boolean = true;
 
   /**
-   * 联网重连最大尝试次数
+   * 心跳检测最大尝试次数
    * @default 0 永远尝试重新连接
    */
   @JsonProperty()

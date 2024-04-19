@@ -30,7 +30,7 @@ const options = {
     onlineContect: true,
 
     /**
-     * 联网重连最大尝试次数
+     * 心跳检测最大尝试次数
      * @default 0 永远尝试重新连接
      */
     @JsonProperty()
