@@ -1,5 +1,6 @@
 node_modules
-src
+# Catch files
+.parcel-cache
 # Log files
 .history
 npm-debug.log*

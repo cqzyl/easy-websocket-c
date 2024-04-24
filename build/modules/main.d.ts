@@ -15,7 +15,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     /** 停止联网检测 */
     protected stopOnlineWatch(): void;
     /** 开始心跳检测 */
-    protected startTimeWatch(): void;
+    protected startTimeWatch(): boolean;
     /** 初始化websocket连接 */
     protected initSocket(): void;
     /** 注册监听事件 */
@@ -27,11 +27,11 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     /** 重连websocket */
     reopen(): void;
     /** 创建websocket连接 */
-    open(url: string | URL, protocols: string | string[] | undefined, forceOpen?: true): this;
+    open(url: string | URL, protocols?: string | string[], forceOpen?: true): this;
     /** Transmits data using the WebSocket connection. data can be a string, a Blob, an ArrayBuffer, or an ArrayBufferView. */
     send(data: string | ArrayBufferLike | Blob | ArrayBufferView): this;
     /** Closes the WebSocket connection, optionally using code as the the WebSocket connection close code and reason as the the WebSocket connection close reason. */
-    close(code?: number, reason?: string, notClearListenEvent?: boolean): void;
+    close(notClearListenEvent?: boolean, code?: number, reason?: string): void;
     /**
      * Clear all fire metter who had bind except the network metter.
      */

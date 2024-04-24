@@ -1,9 +1,10 @@
 {
     "compilerOptions": {
         "module": "CommonJS",
-        "target": "es5",
+        "target": "ESNext",
         "lib": ["ESNext", "DOM", "dom.iterable"],
         "experimentalDecorators": true,
+        "esModuleInterop": true,
         "noImplicitAny": true,
         "removeComments": false,
         "preserveConstEnums": true,

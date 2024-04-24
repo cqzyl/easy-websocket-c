@@ -3,10 +3,11 @@
  * @Author: ChenQiang
  * @Date: 2022-10-08 17:16:04
  * @LastEditors: ChenQiang
- * @LastEditTime: 2024-02-21 16:15:22
+ * @LastEditTime: 2024-04-24 17:15:46
  * @FilePath: \src\modules\attribute.ts
  */
 
+import { mapperJsonC } from 'mapper-json-c';
 import { AutoContect, EasyWebSocketCOptions } from './options';
 
 const baseAutoContect = new AutoContect()
@@ -64,10 +65,6 @@ export class EasyWebSocketCAttribute<T> {
 
     return autoContect === true || (typeof autoContect === 'object' && autoContect.onlineContect)
   }
-
-
-  /** 重连等待计时器 */
-  protected retryTimeCloseKey: number;
 
   /** 实例 */
   protected webSocket: WebSocket;
@@ -150,6 +147,7 @@ export class EasyWebSocketCAttribute<T> {
   /* ****************** websocket close 事件 ****** end   ****************** */
 
   constructor(options?: EasyWebSocketCOptions) {
-    this.options = new EasyWebSocketCOptions(options);
+    this.options = mapperJsonC(options, EasyWebSocketCOptions);
+    console.log(options, JSON.stringify(this.options))
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "easy-websocket-c",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "easy for use websocket",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -8,23 +8,27 @@
   "license": "Anti-996License",
   "scripts": {
     "dev": "tsc --watch",
-    "test": "cross-env TS_NODE_PROJECT='test/tsconfig.test.json' mocha test/**/**.test.ts",
     "build": "npm run clean && tsc",
+    "test-server": "ts-node ./test/nodeServer/app.ts",
+    "test": "parcel ./test/test.html",
     "clean": "rimraf build"
   },
   "devDependencies": {
     "@types/chai": "^4.3.3",
     "@types/mocha": "^10.0.0",
+    "@types/ws": "^8.5.5",
     "chai": "^4.3.6",
     "cross-env": "^7.0.3",
     "mocha": "^10.0.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "ws": "^8.16.0"
   },
   "dependencies": {
-    "mapper-json-c": "^1.1.1"
+    "mapper-json-c": "^1.2.0",
+    "parcel": "^2.0.0-rc.0"
   },
   "keywords": [
     "websocket",

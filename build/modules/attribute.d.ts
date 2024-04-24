@@ -17,7 +17,7 @@ export declare enum NetWorkStatusEnum {
     OFFLINE = 0,
     ONLINE = 1
 }
-export declare type ICallBack<T> = (this: T, ev: Event) => any;
+export type ICallBack<T> = (this: T, ev: Event) => any;
 /**
  * @description: 属性声明
  */
@@ -35,8 +35,6 @@ export declare class EasyWebSocketCAttribute<T> {
     };
     /** 断网后尝试重新连接 */
     protected get isRetryWhenOffline(): boolean;
-    /** 重连等待计时器 */
-    protected retryTimeCloseKey: number;
     /** 实例 */
     protected webSocket: WebSocket;
     /** 运行状态值 */
@@ -53,6 +51,8 @@ export declare class EasyWebSocketCAttribute<T> {
     protected offlineCallback: ICallBack<T>[];
     /** 心跳检测次数判断 */
     timeContectNum: number;
+    /** 心跳检测最大次数 */
+    protected get timeContectMaxNum(): number;
     /** 开启连接心跳检测 */
     protected get isTimeContect(): number;
     /** 错误监听（abort实例） */

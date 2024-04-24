@@ -1,11 +1,11 @@
 # easy-websocket-c
 
 > 用于简化websocket操作 npm i easy-websocket-c
-> 基于websocket增加了 断网心跳检测、联网自动重连 功能
+> 基于websocket增加了 心跳重连检测、联网自动重连 功能
 
 使用示例
 ```
-// 简单用法 默认联网重连，默认（服务端或者网络波动）意外断开自动重连
+// 简单用法
 const a = new EasyWebSocketC();
 a.open('ws://localhost:3000/socket').onOpen(() => {
   console.log('opened')
@@ -24,9 +24,9 @@ const options = {
    * @type { boolean | AutoContect }
    */
   autoContect: {
-    /** 联网重连, 默认true
-     * 即因为网络原因断开后，将在网络连接后自动重新连接
-     */
+    /** 联网重连 - 默认true
+      * @description websocket无法稳定检测到网络断开导致的连接关闭，建议保持开启状态。不过即便为关闭状态下，onOffline事件仍会触发
+      **/
     onlineContect: true,
 
     /**
