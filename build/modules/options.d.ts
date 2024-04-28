@@ -13,6 +13,11 @@ export declare class AutoContect {
      * @description 开启断网重连状态下, 断网后默认使用断网重连检测
      **/
     timeContect?: number;
+    /**
+     * 心跳检测退避机制
+     * @description 下一次尝试重连的间隔时间 = 心跳检测间隔时间 + abdicationTime * 尝试次数
+     **/
+    abdicationTime?: number;
 }
 /** 主对象参数声明 */
 export declare class EasyWebSocketCOptions {

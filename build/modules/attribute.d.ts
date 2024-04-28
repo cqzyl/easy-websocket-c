@@ -53,6 +53,8 @@ export declare class EasyWebSocketCAttribute<T> {
     timeContectNum: number;
     /** 心跳检测最大次数 */
     protected get timeContectMaxNum(): number;
+    /** 退避机制时间 */
+    protected get abdicationTime(): number;
     /** 开启连接心跳检测 */
     protected get isTimeContect(): number;
     /** 错误监听（abort实例） */

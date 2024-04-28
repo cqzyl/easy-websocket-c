@@ -12,7 +12,7 @@ exports.EasyWebSocketCOptions = exports.AutoContect = void 0;
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:15:35
  * @LastEditors: ChenQiang
- * @LastEditTime: 2024-04-24 17:16:07
+ * @LastEditTime: 2024-04-28 11:42:01
  * @FilePath: \src\modules\options.ts
  */
 const mapper_json_c_1 = require("mapper-json-c");
@@ -31,6 +31,11 @@ class AutoContect {
      * @description 开启断网重连状态下, 断网后默认使用断网重连检测
      **/
     timeContect = 3 * 1000;
+    /**
+     * 心跳检测退避机制
+     * @description 下一次尝试重连的间隔时间 = 心跳检测间隔时间 + abdicationTime * 尝试次数
+     **/
+    abdicationTime = 0;
 }
 __decorate([
     (0, mapper_json_c_1.JsonProperty)()
@@ -41,6 +46,9 @@ __decorate([
 __decorate([
     (0, mapper_json_c_1.JsonProperty)()
 ], AutoContect.prototype, "timeContect", void 0);
+__decorate([
+    (0, mapper_json_c_1.JsonProperty)()
+], AutoContect.prototype, "abdicationTime", void 0);
 exports.AutoContect = AutoContect;
 /** 主对象参数声明 */
 class EasyWebSocketCOptions {

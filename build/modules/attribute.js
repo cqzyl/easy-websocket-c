@@ -4,7 +4,7 @@
  * @Author: ChenQiang
  * @Date: 2022-10-08 17:16:04
  * @LastEditors: ChenQiang
- * @LastEditTime: 2024-04-24 17:15:46
+ * @LastEditTime: 2024-04-28 11:47:24
  * @FilePath: \src\modules\attribute.ts
  */
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -84,6 +84,17 @@ class EasyWebSocketCAttribute {
             return baseAutoContect.max;
         }
         return autoContect.max;
+    }
+    /** 退避机制时间 */
+    get abdicationTime() {
+        const { autoContect } = this.options;
+        if (!autoContect) {
+            return 0;
+        }
+        if (autoContect === true) {
+            return baseAutoContect.abdicationTime;
+        }
+        return Math.max(autoContect.abdicationTime || 0, 0);
     }
     /** 开启连接心跳检测 */
     get isTimeContect() {

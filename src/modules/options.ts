@@ -3,7 +3,7 @@
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:15:35
  * @LastEditors: ChenQiang
- * @LastEditTime: 2024-04-24 17:16:07
+ * @LastEditTime: 2024-04-28 11:42:01
  * @FilePath: \src\modules\options.ts
  */
 import { JsonProperty } from 'mapper-json-c';
@@ -28,6 +28,14 @@ export class AutoContect {
    **/
   @JsonProperty()
   timeContect?: number = 3 * 1000;
+
+  
+  /**
+   * 心跳检测退避机制
+   * @description 下一次尝试重连的间隔时间 = 心跳检测间隔时间 + abdicationTime * 尝试次数
+   **/
+  @JsonProperty()
+  abdicationTime?: number = 0;
 }
 
 /** 主对象参数声明 */
