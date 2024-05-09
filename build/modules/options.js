@@ -17,25 +17,27 @@ exports.EasyWebSocketCOptions = exports.AutoContect = void 0;
  */
 const mapper_json_c_1 = require("mapper-json-c");
 class AutoContect {
-    /** 联网重连 - 默认开启
-     * @description websocket无法稳定检测到网络断开导致的连接关闭，建议保持开启状态。不过即便为关闭状态下，onOffline事件仍会触发
-     **/
-    onlineContect = true;
-    /**
-     * 心跳检测最大尝试次数
-     * @default 0 永远尝试重新连接
-     */
-    max = 0;
-    /**
-     * 心跳检测(等待时间ms) 0 为关闭心跳检测
-     * @description 开启断网重连状态下, 断网后默认使用断网重连检测
-     **/
-    timeContect = 3 * 1000;
-    /**
-     * 心跳检测退避机制
-     * @description 下一次尝试重连的间隔时间 = 心跳检测间隔时间 + abdicationTime * 尝试次数
-     **/
-    abdicationTime = 0;
+    constructor() {
+        /** 联网重连 - 默认开启
+         * @description websocket无法稳定检测到网络断开导致的连接关闭，建议保持开启状态。不过即便为关闭状态下，onOffline事件仍会触发
+         **/
+        this.onlineContect = true;
+        /**
+         * 心跳检测最大尝试次数
+         * @default 0 永远尝试重新连接
+         */
+        this.max = 0;
+        /**
+         * 心跳检测(等待时间ms) 0 为关闭心跳检测
+         * @description 开启断网重连状态下, 断网后默认使用断网重连检测
+         **/
+        this.timeContect = 3 * 1000;
+        /**
+         * 心跳检测退避机制
+         * @description 下一次尝试重连的间隔时间 = 心跳检测间隔时间 + abdicationTime * 尝试次数
+         **/
+        this.abdicationTime = 0;
+    }
 }
 __decorate([
     (0, mapper_json_c_1.JsonProperty)()
@@ -52,8 +54,10 @@ __decorate([
 exports.AutoContect = AutoContect;
 /** 主对象参数声明 */
 class EasyWebSocketCOptions {
-    /** 自动重连 */
-    autoContect = true;
+    constructor() {
+        /** 自动重连 */
+        this.autoContect = true;
+    }
 }
 __decorate([
     (0, mapper_json_c_1.JsonProperty)({ clazz: AutoContect })

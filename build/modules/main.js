@@ -42,8 +42,9 @@ class EasyWebSocketC extends attribute_1.EasyWebSocketCAttribute {
     }
     /** 停止断网检测重连功能 */
     stopOfflineWatch() {
+        var _a;
         // 停止事件监听
-        this.offlineAbort?.abort();
+        (_a = this.offlineAbort) === null || _a === void 0 ? void 0 : _a.abort();
         this.offlineAbort = null;
     }
     /** 启动联网检测 */
@@ -65,8 +66,9 @@ class EasyWebSocketC extends attribute_1.EasyWebSocketCAttribute {
     }
     /** 停止联网检测 */
     stopOnlineWatch() {
+        var _a;
         // 停止事件监听
-        this.onlineAbort?.abort();
+        (_a = this.onlineAbort) === null || _a === void 0 ? void 0 : _a.abort();
         this.onlineAbort = null;
     }
     /* ****************** 网络 ****** end ****************** */
@@ -149,11 +151,12 @@ class EasyWebSocketC extends attribute_1.EasyWebSocketCAttribute {
     }
     /** 停止监听事件 */
     stopListenEvent() {
-        this.errorController?.abort();
+        var _a, _b, _c;
+        (_a = this.errorController) === null || _a === void 0 ? void 0 : _a.abort();
         this.errorController = null;
-        this.messageController?.abort();
+        (_b = this.messageController) === null || _b === void 0 ? void 0 : _b.abort();
         this.messageController = null;
-        this.closeController?.abort();
+        (_c = this.closeController) === null || _c === void 0 ? void 0 : _c.abort();
         this.closeController = null;
     }
     /** 等待中清除其他状态 */
@@ -200,7 +203,8 @@ class EasyWebSocketC extends attribute_1.EasyWebSocketCAttribute {
     }
     /** Closes the WebSocket connection, optionally using code as the the WebSocket connection close code and reason as the the WebSocket connection close reason. */
     close(notClearListenEvent, code, reason) {
-        this.webSocket?.close(code, reason);
+        var _a;
+        (_a = this.webSocket) === null || _a === void 0 ? void 0 : _a.close(code, reason);
         this.stopOfflineWatch();
         this.stopOnlineWatch();
         this.stopListenEvent();
