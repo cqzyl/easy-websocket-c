@@ -1,4 +1,5 @@
-import { EasyWebSocketCAttribute, ICallBack } from './attribute';
+/// <reference types="node" />
+import { EasyWebSocketCAttribute, type ICallBack } from './attribute';
 import { EasyWebSocketCOptions } from './options';
 /** socket实体 */
 export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocketC> {
@@ -14,8 +15,22 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     protected startOnlineWatch(): void;
     /** 停止联网检测 */
     protected stopOnlineWatch(): void;
-    /** 开始心跳检测 */
+    /** 报错重连timer */
+    timeWatchTimer: NodeJS.Timeout | null;
+    /** 开始报错重连检测 */
     protected startTimeWatch(): boolean;
+    /** 维护当前时间标识的定时器 */
+    hearTimer: NodeJS.Timer | null;
+    /** 上一次接收心跳包的时间 */
+    heartOldTime: number;
+    /** 心跳尝试次数 */
+    heartTryNumber: number;
+    /** 开始维护当前时间标识 */
+    startHeartKeep(): false | void;
+    /** 收到心跳包（收到任何消息都可以认为是心跳包），更新心跳包时间 */
+    onHeart(): void;
+    /** 停止维护当前时间标识 */
+    stopHeartKeep(): void;
     /** 初始化websocket连接 */
     protected initSocket(): void;
     /** 注册监听事件 */
@@ -61,4 +76,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
      * Fired when a connection with a WebSocket has been closed because of an error, such as when some data couldn't be sent. Also available via the onerror property.
      */
     onError(listener: ICallBack<EasyWebSocketC>): this;
+    /**
+     * Fired when a connection with a heart sender is closed.
+     */
+    onHeartClose(listener: ICallBack<EasyWebSocketC>): this;
 }

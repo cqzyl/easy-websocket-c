@@ -1,0 +1,206 @@
+<svg xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1132 804"
+  width="1132" height="804" xmlns="http://www.w3.org/2000/svg">
+  <defs />
+  <g transform="translate(5.5,5.5)" id="page1">
+    <rect fill="#ffffff" y="0" x="0" width="1123" height="794" />
+    <g transform="translate(319.848543,52.751023)" id="shape1">
+      <path fill="#e9ecff" stroke-width="1" stroke="#467dfe"
+        d="M98.5,52.1L98.5,7.0C98.5,3.1,95.3,.0,91.5,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,52.1C.0,55.9,3.1,59.1,7.0,59.1L91.5,59.1C95.3,59.1,98.5,55.9,98.5,52.1z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="35.5" x="9.7">实例化socket</tspan>
+      </text>
+    </g>
+    <g transform="translate(369.076782,111.824910)" id="shape2">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L.0,34.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M3.0,34.0L.0,40.0L-3.0,34.0L3.0,34.0" />
+      <rect fill="#ffffff" y="8.6" x="-60.0" width="122.0" height="20.0" /><text
+        style="fill:#191919;font-family:Microsoft YaHei;font-size:10.00pt;font-style:italic" xml:space="preserve">
+        <tspan y="24.6" x="-60.0">手动执行socket.open</tspan>
+      </text>
+    </g>
+    <g transform="translate(319.848543,151.356678)" id="shape3">
+      <path fill="#e9ecff" stroke-width="1" stroke="#467dfe"
+        d="M98.5,52.1L98.5,7.0C98.5,3.1,95.3,.0,91.5,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,52.1C.0,55.9,3.1,59.1,7.0,59.1L91.5,59.1C95.3,59.1,98.5,55.9,98.5,52.1z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="35.0" x="16.2">连接socket</tspan>
+      </text>
+    </g>
+    <g transform="translate(319.848543,289.792455)" id="shape4">
+      <path fill="#e9ecff" stroke-width="1" stroke="#467dfe"
+        d="M.0,49.2C.0,22.0,22.0,.0,49.2,.0C76.4,.0,98.5,22.0,98.5,49.2C98.5,76.4,76.4,98.5,49.2,98.5C22.0,98.5,.0,76.4,.0,49.2z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="54.7" x="29.7">运行中</tspan>
+      </text>
+    </g>
+    <g transform="translate(529.000000,218.158584)" id="shape5">
+      <path fill="#e9f8f5" stroke-width="1" stroke="#4ed7c5" d="M147.7,46.8L147.7,.0L.0,.0L.0,46.8L147.7,46.8z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="9.9" x="19.3">注册事件（open、</tspan>
+        <tspan y="28.9" x="19.3">error、message、</tspan>
+        <tspan y="47.9" x="51.8">close）</tspan>
+      </text>
+    </g>
+    <g transform="translate(369.076782,210.430566)" id="shape6">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L.0,73.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M3.0,73.0L.0,79.0L-3.0,73.0L3.0,73.0" />
+      <rect fill="#ffffff" y="8.1" x="-25.0" width="52.0" height="19.0" /><text
+        style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="23.1" x="-25.0">连接成功</tspan>
+      </text>
+    </g>
+    <g transform="translate(373.552077,242.354333)" id="shape7">
+      <path stroke-width="1" stroke-dasharray="11,5" fill="none" stroke="#191919" d="M.0,.0L.0,-1.0L150.0,-1.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M150.0,-4.0L156.0,-1.0L150.0,2.0L150.0,-4.0" />
+    </g>
+    <g transform="translate(48.814109,249.000000)" id="shape8">
+      <path fill="#ffecec" stroke-width="1" stroke="#ff7e79"
+        d="M102.2,23.9L102.2,7.0C102.2,3.1,99.0,.0,95.2,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,23.9C.0,27.7,3.1,30.9,7.0,30.9L95.2,30.9C99.0,30.9,102.2,27.7,102.2,23.9z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="20.9" x="26.1">onOpen</tspan>
+      </text>
+    </g>
+    <g transform="translate(366.839135,266.968453)" id="shape9">
+      <path stroke-width="1" stroke-dasharray="6,4" fill="none" stroke="#191919" d="M.0,.0L.0,-2.0L-210.0,-2.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M-210.0,1.0L-216.0,-2.0L-210.0,-5.0L-210.0,1.0" />
+    </g>
+    <g transform="translate(332.561641,306.004032)" id="shape10">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L-143.7,.0L-143.7,69.0L-3.1,69.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M-3.1,66.0L2.9,69.0L-3.1,72.0L-3.1,66.0" />
+      <rect fill="#ffffff" y="-9.5" x="-106.2" width="78.0" height="19.0" /><text
+        style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="5.5" x="-106.2">当收到消息时</tspan>
+      </text>
+    </g>
+    <g transform="translate(48.814109,323.580928)" id="shape11">
+      <path fill="#ffecec" stroke-width="1" stroke="#ff7e79"
+        d="M102.2,23.9L102.2,7.0C102.2,3.1,99.0,.0,95.2,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,23.9C.0,27.7,3.1,30.9,7.0,30.9L95.2,30.9C99.0,30.9,102.2,27.7,102.2,23.9z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="20.9" x="16.1">onMessage</tspan>
+      </text>
+    </g>
+    <g transform="translate(188.838932,338.882106)" id="shape12">
+      <path stroke-width="1" stroke-dasharray="6,4" fill="none" stroke="#191919" d="M.0,.0L-30.0,.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M-30.0,3.0L-36.0,.0L-30.0,-3.0L-30.0,3.0" />
+    </g>
+    <g transform="translate(369.076782,388.248933)" id="shape13">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L.0,26.0L-2.0,26.0L-2.0,44.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M1.0,44.0L-2.0,50.0L-5.0,44.0L1.0,44.0" />
+    </g>
+    <g transform="translate(318.216756,439.926113)" id="shape14">
+      <path fill="#e9ecff" stroke-width="1" stroke="#467dfe"
+        d="M98.5,52.1L98.5,7.0C98.5,3.1,95.3,.0,91.5,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,52.1C.0,55.9,3.1,59.1,7.0,59.1L91.5,59.1C95.3,59.1,98.5,55.9,98.5,52.1z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="35.5" x="36.2">断开</tspan>
+      </text>
+    </g>
+    <g transform="translate(418.305022,339.020694)" id="shape15">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L167.0,.0L167.0,33.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M170.0,33.0L167.0,39.0L164.0,33.0L170.0,33.0" />
+    </g>
+    <g transform="translate(535.222090,378.254109)" id="shape16">
+      <path fill="#e9ecff" stroke-width="1" stroke="#467dfe"
+        d="M98.5,52.1L98.5,7.0C98.5,3.1,95.3,.0,91.5,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,52.1C.0,55.9,3.1,59.1,7.0,59.1L91.5,59.1C95.3,59.1,98.5,55.9,98.5,52.1z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="35.0" x="10.2">响应意外故障</tspan>
+      </text>
+    </g>
+    <g transform="translate(48.814109,454.023290)" id="shape17">
+      <path fill="#ffecec" stroke-width="1" stroke="#ff7e79"
+        d="M102.2,23.9L102.2,7.0C102.2,3.1,99.0,.0,95.2,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,23.9C.0,27.7,3.1,30.9,7.0,30.9L95.2,30.9C99.0,30.9,102.2,27.7,102.2,23.9z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="20.9" x="26.6">onClose</tspan>
+      </text>
+    </g>
+    <g transform="translate(318.216756,469.463056)" id="shape18">
+      <path stroke-width="1" stroke-dasharray="6,4" fill="none" stroke="#191919" d="M.0,.0L-160.0,.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M-160.0,3.0L-166.0,.0L-160.0,-3.0L-160.0,3.0" />
+    </g>
+    <g transform="translate(48.814109,392.351287)" id="shape19">
+      <path fill="#ffecec" stroke-width="1" stroke="#ff7e79"
+        d="M102.2,23.9L102.2,7.0C102.2,3.1,99.0,.0,95.2,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,23.9C.0,27.7,3.1,30.9,7.0,30.9L95.2,30.9C99.0,30.9,102.2,27.7,102.2,23.9z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="20.9" x="28.1">onError</tspan>
+      </text>
+    </g>
+    <g transform="translate(535.222090,407.791053)" id="shape20">
+      <path stroke-width="1" stroke-dasharray="6,4" fill="none" stroke="#191919"
+        d="M.0,.0L-160.1,.0C-160.1,-3.3,-162.8,-6.0,-166.1,-6.0C-169.5,-6.0,-172.1,-3.3,-172.1,.0L-377.0,.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M-377.0,3.0L-383.0,.0L-377.0,-3.0L-377.0,3.0" />
+    </g>
+    <g transform="translate(318.216756,695.000000)" id="shape21">
+      <path fill="#e9ecff" stroke-width="1" stroke="#467dfe"
+        d="M98.5,52.1L98.5,7.0C98.5,3.1,95.3,.0,91.5,.0L7.0,.0C3.1,.0,.0,3.1,.0,7.0L.0,52.1C.0,55.9,3.1,59.1,7.0,59.1L91.5,59.1C95.3,59.1,98.5,55.9,98.5,52.1z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="35.5" x="36.2">结束</tspan>
+      </text>
+    </g>
+    <g transform="translate(700.149824,522.430843)" id="shape22">
+      <path fill="#e9f8f5" stroke-width="1" stroke="#4ed7c5" d="M147.7,68.6L147.7,.0L.0,.0L.0,68.6L147.7,68.6z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="20.8" x="6.3">取消注册事件（open、</tspan>
+        <tspan y="39.8" x="19.3">error、message、</tspan>
+        <tspan y="58.8" x="51.8">close）</tspan>
+      </text>
+    </g>
+    <g transform="translate(210.208965,522.773740)" id="shape23">
+      <path fill="#e9ecff" stroke-width="1" stroke="#467dfe"
+        d="M164.1,66.4L307.6,35.4C311.4,34.6,311.4,33.3,307.6,32.5L164.1,1.5C160.3,.7,154.2,.7,150.4,1.5L6.8,32.5C3.1,33.3,3.1,34.6,6.8,35.4L150.4,66.4C154.2,67.2,160.3,67.2,164.1,66.4z"
+        fill-rule="nonzero" /><text style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="29.9" x="57.2">断开原因为主动调用close方法且参</tspan>
+        <tspan y="48.9" x="119.7">数1为false？</tspan>
+      </text>
+    </g>
+    <g transform="translate(367.444995,499.000000)" id="shape24">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L.0,18.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M3.0,18.0L.0,24.0L-3.0,18.0L3.0,18.0" />
+    </g>
+    <g transform="translate(367.444995,590.649654)" id="shape25">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L.0,100.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M3.0,100.0L.0,106.0L-3.0,100.0L3.0,100.0" />
+      <rect fill="#ffffff" y="9.1" x="-5.5" width="13.0" height="19.0" /><text
+        style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="24.1" x="-5.5">是</tspan>
+      </text>
+    </g>
+    <g transform="translate(524.681025,556.711697)" id="shape26">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L170.0,.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M170.0,-3.0L176.0,.0L170.0,3.0L170.0,-3.0" />
+      <rect fill="#ffffff" y="-9.5" x="82.5" width="13.0" height="19.0" /><text
+        style="fill:#191919;font-family:微软雅黑;font-size:10.00pt" xml:space="preserve">
+        <tspan y="5.5" x="82.5">否</tspan>
+      </text>
+    </g>
+    <g transform="translate(773.992208,590.992551)" id="shape27">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L.0,41.0L-400.0,41.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M-400.0,44.0L-406.0,41.0L-400.0,38.0L-400.0,44.0" />
+    </g>
+    <g transform="translate(584.450330,437.327996)" id="shape28">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L.0,31.0L-162.0,31.0" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M-162.0,34.0L-168.0,31.0L-162.0,28.0L-162.0,34.0" />
+    </g>
+    <g transform="translate(370.000000,665.000000)" id="shape29">
+      <path stroke-width="1" fill="none" stroke="#191919" d="M.0,.0L507.0,.0L507.0,-484.1L54.3,-484.1" />
+      <path stroke-width="1" fill="#191919" stroke="#191919" stroke-linecap="round"
+        d="M54.3,-481.1L48.3,-484.1L54.3,-487.1L54.3,-481.1" />
+      <rect fill="#ffffff" y="-259.7" x="441.0" width="134.0" height="20.0" /><text
+        style="fill:#191919;font-family:Microsoft YaHei;font-size:10.00pt;font-style:italic" xml:space="preserve">
+        <tspan y="-243.7" x="441.0">手动执行socket.reopen</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

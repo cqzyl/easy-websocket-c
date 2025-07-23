@@ -8,7 +8,7 @@
  */
 
 import { mapperJsonC } from 'mapper-json-c';
-import { AutoContect, EasyWebSocketCOptions } from './options';
+import { AutoContect, EasyWebSocketCOptions, HeartContectOptions } from './options';
 
 const baseAutoContect = new AutoContect()
 
@@ -39,7 +39,7 @@ export type ICallBack<T> = (this: T, ev: Event) => any
  */
 export class EasyWebSocketCAttribute<T> {
   /** 配置参数 */
-  options: EasyWebSocketCOptions;
+  options = new EasyWebSocketCOptions();
 
   /** socket 实例 */
   get socket() {
@@ -159,9 +159,21 @@ export class EasyWebSocketCAttribute<T> {
   /** close回调列表 */
   protected closeCallback: ICallBack<T>[] = []
   /* ****************** websocket close 事件 ****** end   ****************** */
+  /* ****************** websocket close 事件 ****** start ****************** */
+  /** heartClose回调列表 */
+  protected heartCloseCallback: ICallBack<T>[] = []
+  /* ****************** websocket close 事件 ****** end   ****************** */
+  
 
   constructor(options?: EasyWebSocketCOptions) {
-    this.options = mapperJsonC(options, EasyWebSocketCOptions);
-    console.log(options, JSON.stringify(this.options))
+    // this.options = mapperJsonC(options, EasyWebSocketCOptions);
+    if (options) {
+      if (options.autoContect && typeof options.autoContect === 'object') {
+        this.options.autoContect = Object.assign(new AutoContect(), options.autoContect)
+      }
+      if (options.heart && typeof options.heart === 'object') {
+        this.options.heart = Object.assign(new HeartContectOptions(), options.heart)
+      }
+    }
   }
 }

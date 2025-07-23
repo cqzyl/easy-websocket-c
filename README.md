@@ -3,7 +3,7 @@
 > 用于简化websocket操作 npm i easy-websocket-c
 > 基于websocket增加了 心跳重连检测、联网自动重连 功能
 
-使用示例
+## 一、使用示例
 ```
 // 简单用法
 const a = new EasyWebSocketC();
@@ -54,3 +54,18 @@ easyWebSocketC.open('ws://localhost:3000/socket').onOpen(() => {
 })
 
 ```
+
+## 二、Methods
+| 方法名 | 说明 | 参数 | 用法示例 |
+| --- | --- | --- | --- |
+| open | 创建websocket连接 | `url: string \| URL, protocols?: string \| string[], forceOpen?: true` | `easyWebSocketC.open('ws://localhost:3000/socket')` |
+
+| reopen | 重连websocket。直接使用上次`open`时传入的配置信息重新初始化socket实例 | - | `easyWebSocketC.reopen()` |
+| 方法名 | 说明 | 参数 | 用法示例 |
+
+
+
+
+## 三、生命周期图示
+![alt easywebsocket 生命周期](./docs/websocket.svg)
+

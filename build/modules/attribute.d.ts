@@ -17,7 +17,7 @@ export declare enum NetWorkStatusEnum {
     OFFLINE = 0,
     ONLINE = 1
 }
-export type ICallBack<T> = (this: T, ev: Event) => any;
+export declare type ICallBack<T> = (this: T, ev: Event) => any;
 /**
  * @description: 属性声明
  */
@@ -71,5 +71,7 @@ export declare class EasyWebSocketCAttribute<T> {
     protected closeController?: AbortController;
     /** close回调列表 */
     protected closeCallback: ICallBack<T>[];
+    /** heartClose回调列表 */
+    protected heartCloseCallback: ICallBack<T>[];
     constructor(options?: EasyWebSocketCOptions);
 }

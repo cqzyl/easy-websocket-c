@@ -9,7 +9,6 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EasyWebSocketCAttribute = exports.NetWorkStatusEnum = exports.EasyWebSocketCStatus = void 0;
-const mapper_json_c_1 = require("mapper-json-c");
 const options_1 = require("./options");
 const baseAutoContect = new options_1.AutoContect();
 /**
@@ -36,6 +35,51 @@ var NetWorkStatusEnum;
  * @description: 属性声明
  */
 class EasyWebSocketCAttribute {
+    /* ****************** websocket close 事件 ****** end   ****************** */
+    constructor(options) {
+        /** 配置参数 */
+        this.options = new options_1.EasyWebSocketCOptions();
+        /** socket api参数 */
+        this.socketOptions = {
+            url: '',
+        };
+        /** 运行状态值 */
+        this.statusVal = EasyWebSocketCStatus.CLOSED;
+        /* ****************** 网络 ****** start ****************** */
+        /** 网络状态值 */
+        this.netWorkStatus = NetWorkStatusEnum.ONLINE;
+        /** 联网监听回调 */
+        this.onlineCallback = [];
+        /** 断网监听回调 */
+        this.offlineCallback = [];
+        /* ****************** 网络 ****** start ****************** */
+        /* ****************** 心跳检测 ****** start ****************** */
+        /** 心跳检测次数判断 */
+        this.timeContectNum = 0;
+        /** 错误回调列表 */
+        this.errorCallback = [];
+        /* ****************** websocket 错误处理 ****** end   ****************** */
+        /* ****************** websocket open 事件 ****** start ****************** */
+        /** open回调列表 */
+        this.openCallback = [];
+        /** message回调列表 */
+        this.messageCallback = [];
+        /** close回调列表 */
+        this.closeCallback = [];
+        /* ****************** websocket close 事件 ****** end   ****************** */
+        /* ****************** websocket close 事件 ****** start ****************** */
+        /** heartClose回调列表 */
+        this.heartCloseCallback = [];
+        // this.options = mapperJsonC(options, EasyWebSocketCOptions);
+        if (options) {
+            if (options.autoContect && typeof options.autoContect === 'object') {
+                this.options.autoContect = Object.assign(new options_1.AutoContect(), options.autoContect);
+            }
+            if (options.heart && typeof options.heart === 'object') {
+                this.options.heart = Object.assign(new options_1.HeartContectOptions(), options.heart);
+            }
+        }
+    }
     /** socket 实例 */
     get socket() {
         return this.webSocket;
@@ -75,38 +119,6 @@ class EasyWebSocketCAttribute {
     get isTimeContect() {
         const { autoContect } = this.options;
         return autoContect === true ? baseAutoContect.timeContect : (typeof autoContect === 'object' && autoContect.timeContect);
-    }
-    /* ****************** websocket close 事件 ****** end   ****************** */
-    constructor(options) {
-        /** socket api参数 */
-        this.socketOptions = {
-            url: '',
-        };
-        /** 运行状态值 */
-        this.statusVal = EasyWebSocketCStatus.CLOSED;
-        /* ****************** 网络 ****** start ****************** */
-        /** 网络状态值 */
-        this.netWorkStatus = NetWorkStatusEnum.ONLINE;
-        /** 联网监听回调 */
-        this.onlineCallback = [];
-        /** 断网监听回调 */
-        this.offlineCallback = [];
-        /* ****************** 网络 ****** start ****************** */
-        /* ****************** 心跳检测 ****** start ****************** */
-        /** 心跳检测次数判断 */
-        this.timeContectNum = 0;
-        /** 错误回调列表 */
-        this.errorCallback = [];
-        /* ****************** websocket 错误处理 ****** end   ****************** */
-        /* ****************** websocket open 事件 ****** start ****************** */
-        /** open回调列表 */
-        this.openCallback = [];
-        /** message回调列表 */
-        this.messageCallback = [];
-        /** close回调列表 */
-        this.closeCallback = [];
-        this.options = (0, mapper_json_c_1.mapperJsonC)(options, options_1.EasyWebSocketCOptions);
-        console.log(options, JSON.stringify(this.options));
     }
 }
 exports.EasyWebSocketCAttribute = EasyWebSocketCAttribute;

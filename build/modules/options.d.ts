@@ -19,8 +19,35 @@ export declare class AutoContect {
      **/
     abdicationTime?: number;
 }
+/** 心跳包检测配置 */
+export declare class HeartContectOptions {
+    /** 心跳包消息处理,
+     * @description string则直接使用此参数比对心跳包 回调函数返回true代表为心跳消息，false代表非心跳消息
+     */
+    message: string;
+    /** 是否在所有消息中过滤掉心跳消息
+     * @default true
+    */
+    isFilter?: boolean;
+    /** 发送心跳包后的额外等待时间 ms
+     * @default 5000
+     */
+    waitTime?: number;
+    /**
+     * 最大尝试次数
+     * @default 0 永远尝试重新连接
+     */
+    max?: number;
+    /**
+     * 等待时间ms , 0 为关闭心跳检测
+     * @default 5000
+     */
+    timeContect?: number;
+}
 /** 主对象参数声明 */
 export declare class EasyWebSocketCOptions {
     /** 自动重连 */
     autoContect?: boolean | AutoContect;
+    /** 心跳包检测 */
+    heart: false | HeartContectOptions;
 }
