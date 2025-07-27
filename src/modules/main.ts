@@ -4,7 +4,7 @@
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:18:52
  * @LastEditors: ChenQiang
- * @LastEditTime: 2025-07-23 16:36:48
+ * @LastEditTime: 2025-07-25 00:20:30
  * @FilePath: \src\modules\main.ts
  */
 import { EasyWebSocketCAttribute, EasyWebSocketCStatus, type ICallBack, NetWorkStatusEnum } from './attribute';
@@ -151,31 +151,31 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
     if (!heartOptions.timeContect) {
       // 未配置等待时间
+      console.error('heart.timeContect is undefined')
       return false;
     }
+    if (!heartOptions.message) {
+      return console.error('heart.message is undefined')
+    }
+    // 发送心跳消息
     console.warn('注册心跳包发送')
-
+    this.send(heartOptions.message)
     this.hearTimer = setInterval(() => {
-      if (!heartOptions || !heartOptions.message) {
+      if (!heartOptions.message) {
         return console.error('heart.message is undefined')
       }
       // 发送心跳消息
       this.send(heartOptions.message)
-
+      this.heartTryNumber += 1
       // 心跳包监听，如果超过heartOptions.waitTime没有收到心跳包，则认为连接已断开，并手动重启连接
       if (Date.now() - this.heartOldTime > ((heartOptions.waitTime || 5000) + (heartOptions.timeContect || 0))) {
-        if (!heartOptions.max || this.heartTryNumber < heartOptions.max) {
-          this.heartTryNumber += 1
-          this.webSocket.close(1000, '心跳检测到连接断开， easy-websocket-c 主动断开 websocket进行重新连接');
-        } else {
-          // 停止心跳包发送
-          this.stopHeartKeep()
-
-          this.heartCloseCallback.forEach(cb => cb.call(this, {
-            code: 1005,
-            reason: '无法收到心跳包，心跳包发送异常终止，连接未手动终止'
-          }));
-        }
+        this.heartCloseCallback.forEach(cb => cb.call(this, {
+          code: 1005,
+          reason: '无法收到心跳包，心跳包发送异常，连接手动终止'
+        }));
+        this.webSocket.close(1000, '心跳检测到连接断开， easy-websocket-c 主动断开 websocket进行重新连接');
+      } else {
+        console.log(`第${this.heartTryNumber + 1}次心跳包`)
       }
     }, heartOptions.timeContect)// 每timeContect发送一次心跳包
   }
