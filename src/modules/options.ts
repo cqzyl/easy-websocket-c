@@ -36,6 +36,14 @@ export class AutoContect {
    **/
   @JsonProperty()
   abdicationTime?: number = 0;
+
+  /**
+   * 心跳检测最大等待时间 ms
+   * @description 实际心跳检测等待时间 = min(心跳检测间隔时间 + abdicationTime * 尝试次数, abdicationTimeMax)
+   * @default 60 * 1000
+   */
+  @JsonProperty()
+  abdicationTimeMax?: number = 60 * 1000;
 }
 
 /** 心跳包检测配置 */

@@ -125,6 +125,20 @@ export class EasyWebSocketCAttribute<T> {
     return Math.max(autoContect.abdicationTime || 0, 0);
   }
 
+  /** 心跳检测最大等待时间 */
+  protected get abdicationTimeMax() {
+    const { autoContect } = this.options;
+    if (!autoContect) {
+      return baseAutoContect.abdicationTimeMax;
+    }
+
+    if (autoContect === true) {
+      return baseAutoContect.abdicationTimeMax;
+    }
+
+    return autoContect.abdicationTimeMax ?? baseAutoContect.abdicationTimeMax;
+  }
+
   /** 开启连接心跳检测 */
   protected get isTimeContect() {
     const { autoContect } = this.options;
