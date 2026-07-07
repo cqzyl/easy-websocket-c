@@ -4,7 +4,7 @@
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:18:52
  * @LastEditors: ChenQiang
- * @LastEditTime: 2025-07-25 00:20:30
+ * @LastEditTime: 2026-07-08 00:06:48
  * @FilePath: \src\modules\main.ts
  */
 import { EasyWebSocketCAttribute, EasyWebSocketCStatus, type ICallBack, NetWorkStatusEnum } from './attribute';
@@ -213,7 +213,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
       // 发送心跳消息
       this.send(heartOptions.message)
       this.heartTryNumber += 1
-      console.log(`第${this.heartTryNumber + 1}次心跳包`)
+      console.log(`第${this.heartTryNumber}次心跳包`)
     }, heartOptions.timeContect)// 每timeContect发送一次心跳包
   }
 
