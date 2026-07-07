@@ -182,8 +182,12 @@ export class EasyWebSocketCAttribute<T> {
   constructor(options?: EasyWebSocketCOptions) {
     // this.options = mapperJsonC(options, EasyWebSocketCOptions);
     if (options) {
-      if (options.autoContect && typeof options.autoContect === 'object') {
-        this.options.autoContect = Object.assign(new AutoContect(), options.autoContect)
+      if (options.autoContect !== undefined) {
+        if (typeof options.autoContect === 'object') {
+          this.options.autoContect = Object.assign(new AutoContect(), options.autoContect)
+        } else {
+          this.options.autoContect = options.autoContect;
+        }
       }
       if (options.heart && typeof options.heart === 'object') {
         this.options.heart = Object.assign(new HeartContectOptions(), options.heart)

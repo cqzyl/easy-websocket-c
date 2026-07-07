@@ -1,6 +1,6 @@
 {
   "name": "easy-websocket-c",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "easy for use websocket",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -9,8 +9,9 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "npm run clean && tsc",
-    "test-server": "ts-node ./test/nodeServer/app.ts",
-    "test": "parcel ./test/test.html",
+    "test-server": "ts-node ./test/page/nodeServer/app.ts",
+    "test": "parcel ./test/page/test.html",
+    "test:integration": "npm run build && mocha --require ts-node/register --require ./test/integration/setup-env.ts --timeout 30000 \"test/integration/**/*.test.ts\"",
     "clean": "rimraf build"
   },
   "devDependencies": {

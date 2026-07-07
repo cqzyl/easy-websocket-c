@@ -89,6 +89,15 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   /* ****************** 报错重连检测 ****** start ****************** */
   /** 报错重连timer */
   timeWatchTimer: NodeJS.Timeout | null = null
+
+  /** 清除报错重连定时器 */
+  protected clearTimeWatch() {
+    if (this.timeWatchTimer) {
+      clearTimeout(this.timeWatchTimer);
+      this.timeWatchTimer = null;
+    }
+  }
+
   /** 开始报错重连检测 */
   protected startTimeWatch() {
     if (
@@ -97,8 +106,6 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
         this.webSocket?.readyState === WebSocket.CLOSED &&
         // 非主动关闭
         this.statusVal !== EasyWebSocketCStatus.CLOSED &&
-        // 非正在连接
-        this.statusVal !== EasyWebSocketCStatus.CONNECTING &&
         // 当前非断网等待重连状态
         !(
           this.netWorkStatus === NetWorkStatusEnum.OFFLINE
@@ -130,22 +137,63 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   /* ****************** 报错重连检测 ****** end ****************** */
 
   /* ****************** 心跳检测 ****** start ****************** */
-  /** 维护当前时间标识的定时器 */
+  /** 维护心跳包发送的定时器 */
   hearTimer: NodeJS.Timer | null = null;
-  /** 上一次接收心跳包的时间 */
-  heartOldTime = 0
+  /** 心跳响应超时定时器 */
+  heartTimeoutTimer: NodeJS.Timeout | null = null;
   /** 心跳尝试次数 */
   heartTryNumber = 0;
+
+  /** 调度心跳响应超时检测 */
+  protected scheduleHeartTimeout() {
+    this.clearHeartTimeout();
+
+    const heartOptions = this.options.heart;
+    if (!heartOptions || typeof heartOptions !== 'object' || !heartOptions.message) {
+      return;
+    }
+
+    const waitTime = heartOptions.waitTime ?? 5 * 1000;
+    if (!waitTime) {
+      return;
+    }
+
+    this.heartTimeoutTimer = setTimeout(() => {
+      this.onHeartTimeout();
+    }, waitTime);
+  }
+
+  /** 清除心跳响应超时检测 */
+  protected clearHeartTimeout() {
+    if (this.heartTimeoutTimer) {
+      clearTimeout(this.heartTimeoutTimer);
+      this.heartTimeoutTimer = null;
+    }
+  }
+
+  /** 心跳响应超时 */
+  protected onHeartTimeout() {
+    const heartOptions = this.options.heart;
+    if (!heartOptions || typeof heartOptions !== 'object') {
+      return;
+    }
+
+    this.stopHeartKeep();
+    this.heartCloseCallback.forEach(cb => cb.call(this, {
+      code: 1005,
+      reason: '无法收到心跳包，心跳包发送异常，连接手动终止'
+    }));
+    this.webSocket?.close(1000, '心跳检测到连接断开， easy-websocket-c 主动断开 websocket进行重新连接');
+  }
 
   /** 开始维护当前时间标识 */
   startHeartKeep() {
     this.stopHeartKeep()
-    this.heartOldTime = Date.now()
 
     const heartOptions = this.options.heart;
 
     // 没有消息配置直接退出
-    if (!heartOptions || !heartOptions.message) {
+    if (!heartOptions || typeof heartOptions !== 'object' || !heartOptions.message) {
       return console.error('heart.message is undefined')
     }
 
@@ -154,9 +202,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
       console.error('heart.timeContect is undefined')
       return false;
     }
-    if (!heartOptions.message) {
-      return console.error('heart.message is undefined')
-    }
+
     // 发送心跳消息
     console.warn('注册心跳包发送')
     this.send(heartOptions.message)
@@ -167,27 +213,20 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
       // 发送心跳消息
       this.send(heartOptions.message)
       this.heartTryNumber += 1
-      // 心跳包监听，如果超过heartOptions.waitTime没有收到心跳包，则认为连接已断开，并手动重启连接
-      if (Date.now() - this.heartOldTime > ((heartOptions.waitTime || 5000) + (heartOptions.timeContect || 0))) {
-        this.heartCloseCallback.forEach(cb => cb.call(this, {
-          code: 1005,
-          reason: '无法收到心跳包，心跳包发送异常，连接手动终止'
-        }));
-        this.webSocket.close(1000, '心跳检测到连接断开， easy-websocket-c 主动断开 websocket进行重新连接');
-      } else {
-        console.log(`第${this.heartTryNumber + 1}次心跳包`)
-      }
+      console.log(`第${this.heartTryNumber + 1}次心跳包`)
     }, heartOptions.timeContect)// 每timeContect发送一次心跳包
   }
 
-  /** 收到心跳包（收到任何消息都可以认为是心跳包），更新心跳包时间 */
+  /** 收到心跳包（收到任何消息都可以认为是心跳包），重置心跳超时 */
   onHeart() {
     this.heartTryNumber = 0;
-    this.heartOldTime = Date.now()
+    this.scheduleHeartTimeout();
   }
 
   /** 停止维护当前时间标识 */
   stopHeartKeep() {
+    this.clearHeartTimeout();
+
     if (this.hearTimer) {
       console.warn('停止心跳包发送')
       clearInterval(this.hearTimer as never as number)
@@ -198,6 +237,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
   /** 初始化websocket连接 */
   protected initSocket() {
+    this.stopListenEvent();
+
     try {
       // 永远只保持一个socket连接，关闭因为意外导致未关闭的socket连接
       if (this.webSocket) {
@@ -217,9 +258,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     // open
     this.webSocket.addEventListener('open', (ev) => {
       console.warn('连接成功');
-      if (this.timeWatchTimer) {
-        clearTimeout(this.timeWatchTimer)
-      }
+      this.clearTimeWatch();
       // 初始化相关状态参数
       // 修改socket状态
       this.statusVal = EasyWebSocketCStatus.RUNNING;
@@ -254,7 +293,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
       const heartOptions = this.options.heart;
 
       // 心跳检测逻辑
-      if (heartOptions && heartOptions.message) {
+      if (heartOptions && typeof heartOptions === 'object' && heartOptions.message) {
         this.onHeart()// 所有消息都会更新心跳包时间
         if (heartOptions.isFilter && ev.data === heartOptions.message) {
           return ;
@@ -275,7 +314,8 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
       this.closeCallback.forEach(cb => cb.call(this, ev));
       // 心跳检测等待时间后，进行心跳检测鉴定
-      if (this.isTimeContect) {
+      if (this.isTimeContect && this.statusVal !== EasyWebSocketCStatus.CLOSED) {
+        this.clearTimeWatch();
         this.timeWatchTimer = setTimeout(() => {
           // 进行心跳检测鉴定
           this.startTimeWatch();
@@ -302,6 +342,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   protected waittingClear() {
     this.statusVal = EasyWebSocketCStatus.WAITTING;
 
+    this.clearTimeWatch();
     this.stopListenEvent();
     
     this.webSocket.close(1000, '网络断开， easy-websocket-c 主动断开 websocket');
@@ -354,6 +395,9 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
 
   /** Closes the WebSocket connection, optionally using code as the the WebSocket connection close code and reason as the the WebSocket connection close reason. */
   close(notClearListenEvent?: boolean, code?: number, reason?: string) {
+    this.clearTimeWatch();
+    // 主动关闭前先更新状态，避免 close 事件同步触发重连定时器
+    this.statusVal = EasyWebSocketCStatus.CLOSED;
     this.webSocket?.close(code, reason);
     
     this.stopOfflineWatch();
@@ -365,8 +409,6 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     if (!notClearListenEvent) {
       this.clearListenEvent();
     }
-    // 更新状态为关闭（只有主动关闭时状态才为CLOSED）
-    this.statusVal = EasyWebSocketCStatus.CLOSED
 
     this.webSocket = null;
   }

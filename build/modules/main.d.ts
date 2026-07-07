@@ -17,17 +17,25 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
     protected stopOnlineWatch(): void;
     /** 报错重连timer */
     timeWatchTimer: NodeJS.Timeout | null;
+    /** 清除报错重连定时器 */
+    protected clearTimeWatch(): void;
     /** 开始报错重连检测 */
     protected startTimeWatch(): boolean;
-    /** 维护当前时间标识的定时器 */
+    /** 维护心跳包发送的定时器 */
     hearTimer: NodeJS.Timer | null;
-    /** 上一次接收心跳包的时间 */
-    heartOldTime: number;
+    /** 心跳响应超时定时器 */
+    heartTimeoutTimer: NodeJS.Timeout | null;
     /** 心跳尝试次数 */
     heartTryNumber: number;
+    /** 调度心跳响应超时检测 */
+    protected scheduleHeartTimeout(): void;
+    /** 清除心跳响应超时检测 */
+    protected clearHeartTimeout(): void;
+    /** 心跳响应超时 */
+    protected onHeartTimeout(): void;
     /** 开始维护当前时间标识 */
     startHeartKeep(): false | void;
-    /** 收到心跳包（收到任何消息都可以认为是心跳包），更新心跳包时间 */
+    /** 收到心跳包（收到任何消息都可以认为是心跳包），重置心跳超时 */
     onHeart(): void;
     /** 停止维护当前时间标识 */
     stopHeartKeep(): void;
