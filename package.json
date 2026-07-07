@@ -1,6 +1,6 @@
 {
   "name": "easy-websocket-c",
-  "version": "0.4.10",
+  "version": "0.5.0",
   "description": "easy for use websocket",
   "main": "build/index.js",
   "types": "build/index.d.ts",

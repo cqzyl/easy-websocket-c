@@ -37,6 +37,12 @@ class AutoContect {
          * @description 下一次尝试重连的间隔时间 = 心跳检测间隔时间 + abdicationTime * 尝试次数
          **/
         this.abdicationTime = 0;
+        /**
+         * 心跳检测最大等待时间 ms
+         * @description 实际心跳检测等待时间 = min(心跳检测间隔时间 + abdicationTime * 尝试次数, abdicationTimeMax)
+         * @default 60 * 1000
+         */
+        this.abdicationTimeMax = 60 * 1000;
     }
 }
 __decorate([
@@ -51,6 +57,9 @@ __decorate([
 __decorate([
     (0, mapper_json_c_1.JsonProperty)()
 ], AutoContect.prototype, "abdicationTime", void 0);
+__decorate([
+    (0, mapper_json_c_1.JsonProperty)()
+], AutoContect.prototype, "abdicationTimeMax", void 0);
 exports.AutoContect = AutoContect;
 /** 心跳包检测配置 */
 class HeartContectOptions {

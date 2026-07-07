@@ -18,6 +18,12 @@ export declare class AutoContect {
      * @description 下一次尝试重连的间隔时间 = 心跳检测间隔时间 + abdicationTime * 尝试次数
      **/
     abdicationTime?: number;
+    /**
+     * 心跳检测最大等待时间 ms
+     * @description 实际心跳检测等待时间 = min(心跳检测间隔时间 + abdicationTime * 尝试次数, abdicationTimeMax)
+     * @default 60 * 1000
+     */
+    abdicationTimeMax?: number;
 }
 /** 心跳包检测配置 */
 export declare class HeartContectOptions {

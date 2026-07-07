@@ -240,7 +240,7 @@ class EasyWebSocketC extends attribute_1.EasyWebSocketCAttribute {
                 this.timeWatchTimer = setTimeout(() => {
                     // 进行心跳检测鉴定
                     this.startTimeWatch();
-                }, this.isTimeContect + this.timeContectNum * this.abdicationTime);
+                }, Math.min(this.isTimeContect + this.timeContectNum * this.abdicationTime, this.abdicationTimeMax));
             }
         }, {
             signal: this.closeController.signal
