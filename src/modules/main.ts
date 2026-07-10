@@ -358,7 +358,7 @@ export default class EasyWebSocketC extends EasyWebSocketCAttribute<EasyWebSocke
   open(url: string | URL, protocols?: string | string[], forceOpen?: true) {
     if (this.webSocket) {
       if (forceOpen) {
-        this.close(false, 1000, 'easy-websocket-c 重新启动 websocket');
+        this.close(true, 1000, 'easy-websocket-c 重新启动 websocket');
         console.warn('连接已关闭');
       } else {
         console.warn('连接已存在，未重新建立新连接');

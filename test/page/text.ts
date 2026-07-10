@@ -3,7 +3,7 @@ import EasyWebSocketC from '../../src/index.ts'
 
 const socket = new EasyWebSocketC({
   autoContect: {
-    max: 10,
+    // max: 10,
     onlineContect: true,
     timeContect: 1000,
     abdicationTime: 1 * 1000,
@@ -15,9 +15,9 @@ const socket = new EasyWebSocketC({
   }
 });
 
-const wsUrl = 'ws://localhost:1134'
+// const wsUrl = 'ws://localhost:1134'
 // const wsUrl = 'ws://82.157.123.54:9010/ajaxchattest'
-
+const wsUrl = 'ws://221.182.31.135:8809/chat-room/chat/1/pc'
 
 socket.open(wsUrl).onOpen(() => {
   console.log('onOpen')

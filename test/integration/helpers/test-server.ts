@@ -8,6 +8,10 @@ export type TestServerOptions = {
   replyOnConnect?: string | false;
   /** 是否回复 heartMessage */
   replyHeart?: boolean;
+  /** 自定义心跳消息标识，默认 heartMessage */
+  heartMessage?: string;
+  /** 收到客户端消息时的回调 */
+  onClientMessage?: (msg: string) => void;
 };
 
 export type TestServer = {
@@ -32,10 +36,12 @@ export function createTestServer(options: TestServerOptions = {}): Promise<TestS
 
         ws.on('message', (data) => {
           const msg = data.toString();
+          options.onClientMessage?.(msg);
 
-          if (msg === HEART_MESSAGE) {
+          const heartMsg = options.heartMessage ?? HEART_MESSAGE;
+          if (msg === heartMsg) {
             if (options.replyHeart) {
-              ws.send(HEART_MESSAGE);
+              ws.send(heartMsg);
             }
             return;
           }

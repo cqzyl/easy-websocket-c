@@ -673,7 +673,7 @@ var _indexTsDefault = parcelHelpers.interopDefault(_indexTs);
 var global = arguments[3];
 const socket = new (0, _indexTsDefault.default)({
     autoContect: {
-        max: 10,
+        // max: 10,
         onlineContect: true,
         timeContect: 1000,
         abdicationTime: 1000
@@ -684,8 +684,9 @@ const socket = new (0, _indexTsDefault.default)({
         timeContect: 5000
     }
 });
-const wsUrl = 'ws://localhost:1134';
+// const wsUrl = 'ws://localhost:1134'
 // const wsUrl = 'ws://82.157.123.54:9010/ajaxchattest'
+const wsUrl = 'ws://221.182.31.135:8809/chat-room/chat/1/pc';
 socket.open(wsUrl).onOpen(()=>{
     console.log('onOpen');
 }).onClose((ev)=>{
@@ -723,7 +724,7 @@ exports.default = (0, _mainDefault.default);
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:18:52
  * @LastEditors: ChenQiang
- * @LastEditTime: 2025-07-25 00:20:30
+ * @LastEditTime: 2026-07-08 00:06:48
  * @FilePath: \src\modules\main.ts
  */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -849,7 +850,7 @@ class EasyWebSocketC extends (0, _attribute.EasyWebSocketCAttribute) {
             // 发送心跳消息
             this.send(heartOptions.message);
             this.heartTryNumber += 1;
-            console.log(`\u{7B2C}${this.heartTryNumber + 1}\u{6B21}\u{5FC3}\u{8DF3}\u{5305}`);
+            console.log(`\u{7B2C}${this.heartTryNumber}\u{6B21}\u{5FC3}\u{8DF3}\u{5305}`);
         }, heartOptions.timeContect) // 每timeContect发送一次心跳包
         ;
     }

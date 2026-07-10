@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @Author: ChenQiang
  * @Date: 2022-09-30 09:18:52
  * @LastEditors: ChenQiang
- * @LastEditTime: 2025-07-25 00:20:30
+ * @LastEditTime: 2026-07-08 00:06:48
  * @FilePath: \src\modules\main.ts
  */
 const attribute_1 = require("./attribute");
@@ -182,7 +182,7 @@ class EasyWebSocketC extends attribute_1.EasyWebSocketCAttribute {
             // 发送心跳消息
             this.send(heartOptions.message);
             this.heartTryNumber += 1;
-            console.log(`第${this.heartTryNumber + 1}次心跳包`);
+            console.log(`第${this.heartTryNumber}次心跳包`);
         }, heartOptions.timeContect); // 每timeContect发送一次心跳包
     }
     /** 收到心跳包（收到任何消息都可以认为是心跳包），重置心跳超时 */
@@ -301,7 +301,7 @@ class EasyWebSocketC extends attribute_1.EasyWebSocketCAttribute {
     open(url, protocols, forceOpen) {
         if (this.webSocket) {
             if (forceOpen) {
-                this.close(false, 1000, 'easy-websocket-c 重新启动 websocket');
+                this.close(true, 1000, 'easy-websocket-c 重新启动 websocket');
                 console.warn('连接已关闭');
             }
             else {
